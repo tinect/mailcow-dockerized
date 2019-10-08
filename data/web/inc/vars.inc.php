@@ -22,51 +22,51 @@ $mailcow_hostname = getenv('MAILCOW_HOSTNAME');
 // ===
 // Auto-detect HTTPS port =>
 $https_port = strpos($_SERVER['HTTP_HOST'], ':');
-if ($https_port === FALSE) {
-  $https_port = 443;
+if ($https_port === false) {
+    $https_port = 443;
 } else {
-  $https_port = substr($_SERVER['HTTP_HOST'], $https_port+1);
+    $https_port = substr($_SERVER['HTTP_HOST'], $https_port + 1);
 }
 
 // Alternatively select port here =>
 //$https_port = 1234;
 // Other settings =>
 $autodiscover_config = array(
-  // General autodiscover service type: "activesync" or "imap"
-  // emClient uses autodiscover, but does not support ActiveSync. mailcow excludes emClient from ActiveSync.
-  'autodiscoverType' => 'activesync',
-  // If autodiscoverType => activesync, also use ActiveSync (EAS) for Outlook desktop clients (>= Outlook 2013 on Windows)
-  // Outlook for Mac does not support ActiveSync
-  'useEASforOutlook' => 'yes',
-  // Please don't use STARTTLS-enabled service ports in the "port" variable.
-  // The autodiscover service will always point to SMTPS and IMAPS (TLS-wrapped services).
-  // The autoconfig service will additionally announce the STARTTLS-enabled ports, specified in the "tlsport" variable.
-  'imap' => array(
-    'server' => $mailcow_hostname,
-    'port' => end(explode(':', getenv('IMAPS_PORT'))),
-    'tlsport' => end(explode(':', getenv('IMAP_PORT'))),
-  ),
-  'pop3' => array(
-    'server' => $mailcow_hostname,
-    'port' => end(explode(':', getenv('POPS_PORT'))),
-    'tlsport' => end(explode(':', getenv('POP_PORT'))),
-  ),
-  'smtp' => array(
-    'server' => $mailcow_hostname,
-    'port' => end(explode(':', getenv('SMTPS_PORT'))),
-    'tlsport' => end(explode(':', getenv('SUBMISSION_PORT'))),
-  ),
-  'activesync' => array(
-    'url' => 'https://'.$mailcow_hostname.($https_port == 443 ? '' : ':'.$https_port).'/Microsoft-Server-ActiveSync',
-  ),
-  'caldav' => array(
-    'server' => $mailcow_hostname,
-    'port' => $https_port,
-  ),
-  'carddav' => array(
-    'server' => $mailcow_hostname,
-    'port' => $https_port,
-  ),
+    // General autodiscover service type: "activesync" or "imap"
+    // emClient uses autodiscover, but does not support ActiveSync. mailcow excludes emClient from ActiveSync.
+    'autodiscoverType' => 'activesync',
+    // If autodiscoverType => activesync, also use ActiveSync (EAS) for Outlook desktop clients (>= Outlook 2013 on Windows)
+    // Outlook for Mac does not support ActiveSync
+    'useEASforOutlook' => 'yes',
+    // Please don't use STARTTLS-enabled service ports in the "port" variable.
+    // The autodiscover service will always point to SMTPS and IMAPS (TLS-wrapped services).
+    // The autoconfig service will additionally announce the STARTTLS-enabled ports, specified in the "tlsport" variable.
+    'imap' => array(
+        'server' => $mailcow_hostname,
+        'port' => end(explode(':', getenv('IMAPS_PORT'))),
+        'tlsport' => end(explode(':', getenv('IMAP_PORT'))),
+    ),
+    'pop3' => array(
+        'server' => $mailcow_hostname,
+        'port' => end(explode(':', getenv('POPS_PORT'))),
+        'tlsport' => end(explode(':', getenv('POP_PORT'))),
+    ),
+    'smtp' => array(
+        'server' => $mailcow_hostname,
+        'port' => end(explode(':', getenv('SMTPS_PORT'))),
+        'tlsport' => end(explode(':', getenv('SUBMISSION_PORT'))),
+    ),
+    'activesync' => array(
+        'url' => 'https://' . $mailcow_hostname . ($https_port == 443 ? '' : ':' . $https_port) . '/Microsoft-Server-ActiveSync',
+    ),
+    'caldav' => array(
+        'server' => $mailcow_hostname,
+        'port' => $https_port,
+    ),
+    'carddav' => array(
+        'server' => $mailcow_hostname,
+        'port' => $https_port,
+    ),
 );
 
 // If false, we will use DEFAULT_LANG
@@ -99,10 +99,10 @@ $SHOW_DKIM_PRIV_KEYS = false;
 
 // mailcow Apps - buttons on login screen
 $MAILCOW_APPS = array(
-  array(
-    'name' => 'Webmail',
-    'link' => '/SOGo/',
-  )
+    array(
+        'name' => 'Webmail',
+        'link' => '/SOGo/',
+    )
 );
 
 // Rows until pagination begins
@@ -118,10 +118,10 @@ $LOG_PAGINATION_SIZE = 50;
 $SESSION_LIFETIME = 10800;
 
 // Label for OTP devices
-$OTP_LABEL = "mailcow UI";
+$OTP_LABEL = 'mailcow UI';
 
 // Default "to" address in relay test tool
-$RELAY_TO = "null@hosted.mailcow.de";
+$RELAY_TO = 'null@hosted.mailcow.de';
 
 // How long to wait (in s) for cURL Docker requests
 $DOCKER_TIMEOUT = 60;
