@@ -28,8 +28,10 @@ $_SESSION['return_to'] = $_SERVER['REQUEST_URI'];
                     <div class="panel-heading"><span class="glyphicon glyphicon-user"
                                                      aria-hidden="true"></span> <?= $lang['login']['login']; ?></div>
                     <div class="panel-body">
-                        <div class="text-center mailcow-logo"><img src="<?= ($main_logo = customize('get',
-                                'main_logo')) ? $main_logo : '/img/cow_mailcow.svg'; ?>" alt="mailcow"></div>
+                        <div class="text-center mailcow-logo"><img src="<?= ($main_logo = customize(
+    'get',
+                                'main_logo'
+)) ? $main_logo : '/img/cow_mailcow.svg'; ?>" alt="mailcow"></div>
                         <legend><?= $UI_TEXTS['main_name']; ?></legend>
                         <form method="post" autofill="off">
                             <div class="form-group">
@@ -66,8 +68,10 @@ $_SESSION['return_to'] = $_SERVER['REQUEST_URI'];
                                         foreach ($AVAILABLE_LANGUAGES as $language):
                                             ?>
                                             <li<?= ($_SESSION['mailcow_locale'] == $language) ? ' class="active"' : ''; ?>>
-                                                <a href="?<?= http_build_query(array_merge($_GET,
-                                                    array('lang' => $language))) ?>"><span class="lang-xs lang-lbl-full"
+                                                <a href="?<?= http_build_query(array_merge(
+                                                $_GET,
+                                                    array('lang' => $language)
+                                            )) ?>"><span class="lang-xs lang-lbl-full"
                                                                                            lang="<?= $language; ?>"></span></a>
                                             </li>
                                         <?php
@@ -81,8 +85,10 @@ $_SESSION['return_to'] = $_SERVER['REQUEST_URI'];
                         if (isset($_SESSION['ldelay']) && $_SESSION['ldelay'] != '0'):
                             ?>
                             <p>
-                            <div class="alert alert-info"><?= sprintf($lang['login']['delayed'],
-                                    $_SESSION['ldelay']); ?></b></div></p>
+                            <div class="alert alert-info"><?= sprintf(
+                                $lang['login']['delayed'],
+                                    $_SESSION['ldelay']
+                            ); ?></b></div></p>
                         <?php
                         endif;
                         ?>

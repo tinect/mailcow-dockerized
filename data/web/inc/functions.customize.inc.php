@@ -15,8 +15,10 @@ function customize($_action, $_item, $_data = null)
             }
             switch ($_item) {
                 case 'main_logo':
-                    if (in_array($_data['main_logo']['type'],
-                        array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png', 'image/svg+xml'))) {
+                    if (in_array(
+                        $_data['main_logo']['type'],
+                        array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png', 'image/svg+xml')
+                    )) {
                         try {
                             if (file_exists($_data['main_logo']['tmp_name']) !== true) {
                                 $_SESSION['return'][] = array(
@@ -36,8 +38,7 @@ function customize($_action, $_item, $_data = null)
                                 return false;
                             }
                             $image->destroy();
-                        }
-                        catch (ImagickException $e) {
+                        } catch (ImagickException $e) {
                             $_SESSION['return'][] = array(
                                 'type' => 'danger',
                                 'log' => array(__FUNCTION__, $_action, $_item, $_data),
@@ -54,10 +55,11 @@ function customize($_action, $_item, $_data = null)
                         return false;
                     }
                     try {
-                        $redis->Set('MAIN_LOGO',
-                            'data:' . $_data['main_logo']['type'] . ';base64,' . base64_encode(file_get_contents($_data['main_logo']['tmp_name'])));
-                    }
-                    catch (RedisException $e) {
+                        $redis->Set(
+                            'MAIN_LOGO',
+                            'data:' . $_data['main_logo']['type'] . ';base64,' . base64_encode(file_get_contents($_data['main_logo']['tmp_name']))
+                        );
+                    } catch (RedisException $e) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'log' => array(__FUNCTION__, $_action, $_item, $_data),
@@ -93,8 +95,7 @@ function customize($_action, $_item, $_data = null)
                         }
                         try {
                             $redis->set('APP_LINKS', json_encode($out));
-                        }
-                        catch (RedisException $e) {
+                        } catch (RedisException $e) {
                             $_SESSION['return'][] = array(
                                 'type' => 'danger',
                                 'log' => array(__FUNCTION__, $_action, $_item, $_data),
@@ -121,8 +122,7 @@ function customize($_action, $_item, $_data = null)
                         $redis->set('APPS_NAME', htmlspecialchars($apps_name));
                         $redis->set('HELP_TEXT', $help_text);
                         $redis->set('UI_FOOTER', $ui_footer);
-                    }
-                    catch (RedisException $e) {
+                    } catch (RedisException $e) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'log' => array(__FUNCTION__, $_action, $_item, $_data),
@@ -158,8 +158,7 @@ function customize($_action, $_item, $_data = null)
                             );
                             return true;
                         }
-                    }
-                    catch (RedisException $e) {
+                    } catch (RedisException $e) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'log' => array(__FUNCTION__, $_action, $_item, $_data),
@@ -175,8 +174,7 @@ function customize($_action, $_item, $_data = null)
                 case 'app_links':
                     try {
                         $app_links = json_decode($redis->get('APP_LINKS'), true);
-                    }
-                    catch (RedisException $e) {
+                    } catch (RedisException $e) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'log' => array(__FUNCTION__, $_action, $_item, $_data),
@@ -189,8 +187,7 @@ function customize($_action, $_item, $_data = null)
                 case 'main_logo':
                     try {
                         return $redis->get('MAIN_LOGO');
-                    }
-                    catch (RedisException $e) {
+                    } catch (RedisException $e) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'log' => array(__FUNCTION__, $_action, $_item, $_data),
@@ -211,8 +208,7 @@ function customize($_action, $_item, $_data = null)
                         }
                         $data['ui_footer'] = ($ui_footer = $redis->get('UI_FOOTER')) ? $ui_footer : false;
                         return $data;
-                    }
-                    catch (RedisException $e) {
+                    } catch (RedisException $e) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'log' => array(__FUNCTION__, $_action, $_item, $_data),
@@ -229,8 +225,7 @@ function customize($_action, $_item, $_data = null)
                             $image->readImageBlob(base64_decode($img_data[1]));
                         }
                         return $image->identifyImage();
-                    }
-                    catch (ImagickException $e) {
+                    } catch (ImagickException $e) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'log' => array(__FUNCTION__, $_action, $_item, $_data),

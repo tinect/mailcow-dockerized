@@ -89,8 +89,11 @@ function policy($_action, $_scope, $_data = null)
                     break;
                 case 'mailbox':
                     $object = $_data['username'];
-                    if (!hasMailboxObjectAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'],
-                        $object)) {
+                    if (!hasMailboxObjectAccess(
+                        $_SESSION['mailcow_cc_username'],
+                        $_SESSION['mailcow_cc_role'],
+                        $object
+                    )) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'log' => array(__FUNCTION__, $_action, $_scope, $_data_log),
@@ -174,8 +177,11 @@ function policy($_action, $_scope, $_data = null)
                         $stmt->execute(array(':prefid' => $prefid));
                         $object = $stmt->fetch(PDO::FETCH_ASSOC)['object'];
                         if (is_valid_domain_name($object)) {
-                            if (!hasDomainAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'],
-                                $object)) {
+                            if (!hasDomainAccess(
+                                $_SESSION['mailcow_cc_username'],
+                                $_SESSION['mailcow_cc_role'],
+                                $object
+                            )) {
                                 $_SESSION['return'][] = array(
                                     'type' => 'danger',
                                     'log' => array(__FUNCTION__, $_action, $_scope, $_data_log),
@@ -198,8 +204,7 @@ function policy($_action, $_scope, $_data = null)
                                 ':object' => $object,
                                 ':prefid' => $prefid
                             ));
-                        }
-                        catch (PDOException $e) {
+                        } catch (PDOException $e) {
                             $_SESSION['return'][] = array(
                                 'type' => 'danger',
                                 'log' => array(__FUNCTION__, $_action, $_scope, $_data_log),
@@ -233,8 +238,11 @@ function policy($_action, $_scope, $_data = null)
                         $stmt = $pdo->prepare('SELECT `object` FROM `filterconf` WHERE `prefid` = :prefid');
                         $stmt->execute(array(':prefid' => $prefid));
                         $object = $stmt->fetch(PDO::FETCH_ASSOC)['object'];
-                        if (!hasMailboxObjectAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'],
-                            $object)) {
+                        if (!hasMailboxObjectAccess(
+                            $_SESSION['mailcow_cc_username'],
+                            $_SESSION['mailcow_cc_role'],
+                            $object
+                        )) {
                             $_SESSION['return'][] = array(
                                 'type' => 'danger',
                                 'log' => array(__FUNCTION__, $_action, $_scope, $_data_log),
@@ -248,8 +256,7 @@ function policy($_action, $_scope, $_data = null)
                                 ':object' => $object,
                                 ':prefid' => $prefid
                             ));
-                        }
-                        catch (PDOException $e) {
+                        } catch (PDOException $e) {
                             $_SESSION['return'][] = array(
                                 'type' => 'danger',
                                 'log' => array(__FUNCTION__, $_action, $_scope, $_data_log),
@@ -292,8 +299,11 @@ function policy($_action, $_scope, $_data = null)
                     break;
                 case 'mailbox':
                     if (isset($_data) && filter_var($_data, FILTER_VALIDATE_EMAIL)) {
-                        if (!hasMailboxObjectAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'],
-                            $_data)) {
+                        if (!hasMailboxObjectAccess(
+                            $_SESSION['mailcow_cc_username'],
+                            $_SESSION['mailcow_cc_role'],
+                            $_data
+                        )) {
                             return false;
                         }
                     } else {

@@ -7,8 +7,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
     $tfa_data = get_tfa();
     if (!isset($_SESSION['gal']) && $license_cache = $redis->Get('LICENSE_STATUS_CACHE')) {
         $_SESSION['gal'] = json_decode($license_cache, true);
-    }
-    ?>
+    } ?>
     <div class="container">
 
         <ul class="nav nav-tabs" role="tablist">
@@ -90,7 +89,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                         </div>
                                                     </form>
                                                 <?php endforeach;
-                                            endif; ?>
+    endif; ?>
                                         </div>
                                         <br/>
                                     </div>
@@ -157,8 +156,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                           class="arrow rotate glyphicon glyphicon-menu-down"></span> API
                                 </legend>
                                 <?php
-                                $api = admin_api('get');
-                                ?>
+                                $api = admin_api('get'); ?>
                                 <div id="api" class="collapse">
                                     <form class="form-horizontal" autocapitalize="none" autocorrect="off" role="form"
                                           method="post">
@@ -509,8 +507,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                         foreach (mailbox('get', 'domains') as $domain) {
                                             if (!empty($dkim = dkim('details', $domain))) {
                                                 $dkim_domains[] = $domain;
-                                                ($GLOBALS['SHOW_DKIM_PRIV_KEYS'] === true) ?: $dkim['privkey'] = base64_encode('Please set $SHOW_DKIM_PRIV_KEYS to true to show DKIM private keys.');
-                                                ?>
+                                                ($GLOBALS['SHOW_DKIM_PRIV_KEYS'] === true) ?: $dkim['privkey'] = base64_encode('Please set $SHOW_DKIM_PRIV_KEYS to true to show DKIM private keys.'); ?>
                                                 <div class="row">
                                                     <div class="col-md-1"><input type="checkbox" data-id="dkim"
                                                                                  name="multi_select"
@@ -563,8 +560,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                             foreach (mailbox('get', 'alias_domains', $domain) as $alias_domain) {
                                                 if (!empty($dkim = dkim('details', $alias_domain))) {
                                                     $dkim_domains[] = $alias_domain;
-                                                    ($GLOBALS['SHOW_DKIM_PRIV_KEYS'] === true) ?: $dkim['privkey'] = base64_encode('Please set $SHOW_DKIM_PRIV_KEYS to true to show DKIM private keys.');
-                                                    ?>
+                                                    ($GLOBALS['SHOW_DKIM_PRIV_KEYS'] === true) ?: $dkim['privkey'] = base64_encode('Please set $SHOW_DKIM_PRIV_KEYS to true to show DKIM private keys.'); ?>
                                                     <div class="row">
                                                         <div class="col-md-1"><input type="checkbox" data-id="dkim"
                                                                                      name="multi_select"
@@ -616,11 +612,10 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                 }
                                             }
                                         }
-                                        foreach (dkim('blind') as $blind) {
-                                            if (!empty($dkim = dkim('details', $blind))) {
-                                                $dkim_domains[] = $blind;
-                                                ($GLOBALS['SHOW_DKIM_PRIV_KEYS'] === true) ?: $dkim['privkey'] = base64_encode('Please set $SHOW_DKIM_PRIV_KEYS to true to show DKIM private keys.');
-                                                ?>
+    foreach (dkim('blind') as $blind) {
+        if (!empty($dkim = dkim('details', $blind))) {
+            $dkim_domains[] = $blind;
+            ($GLOBALS['SHOW_DKIM_PRIV_KEYS'] === true) ?: $dkim['privkey'] = base64_encode('Please set $SHOW_DKIM_PRIV_KEYS to true to show DKIM private keys.'); ?>
                                                 <div class="row">
                                                     <div class="col-md-1"><input type="checkbox" data-id="dkim"
                                                                                  name="multi_select"
@@ -648,9 +643,8 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                     <hr class="visible-xs visible-sm">
                                                 </div>
                                                 <?php
-                                            }
-                                        }
-                                        ?>
+        }
+    } ?>
 
                                         <legend style="margin-top:40px"><?= $lang['admin']['dkim_add_key']; ?></legend>
                                         <form class="form" data-id="dkim" role="form" method="post">
@@ -739,8 +733,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                                 ?>
                                                                 <option value="<?= $dkim; ?>"><?= $dkim; ?></option>
                                                                 <?php
-                                                            }
-                                                            ?>
+                                                            } ?>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -756,13 +749,14 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                             name="to_domain" id="to_domain"
                                                             class="full-width-select form-control" multiple required>
                                                             <?php
-                                                            foreach (array_merge(mailbox('get', 'domains'),
-                                                                mailbox('get', 'alias_domains')) as $domain) {
+                                                            foreach (array_merge(
+                                                                mailbox('get', 'domains'),
+                                                                mailbox('get', 'alias_domains')
+                                                            ) as $domain) {
                                                                 ?>
                                                                 <option value="<?= $domain; ?>"><?= $domain; ?></option>
                                                                 <?php
-                                                            }
-                                                            ?>
+                                                            } ?>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -836,8 +830,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                     <div class="panel-heading"><?= $lang['admin']['f2b_parameters']; ?></div>
                                     <div class="panel-body">
                                         <?php
-                                        $f2b_data = fail2ban('get');
-                                        ?>
+                                        $f2b_data = fail2ban('get'); ?>
                                         <form class="form" data-id="f2b" role="form" method="post">
                                             <div class="form-group">
                                                 <label for="ban_time"><?= $lang['admin']['f2b_ban_time']; ?>:</label>
@@ -906,7 +899,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                             <i><?= $lang['admin']['no_active_bans']; ?></i>
                                         <?php
                                         endif;
-                                        if (!empty($f2b_data['active_bans'])):
+    if (!empty($f2b_data['active_bans'])):
                                             foreach ($f2b_data['active_bans'] as $active_bans):
                                                 ?>
                                                 <p><span class="label label-info"
@@ -927,16 +920,14 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                 ?>
                 <i><?= $lang['admin']['unban_pending']; ?></i>
             <?php
-            endif;
-            ?>
+            endif; ?>
           </span></p>
                                             <?php
-                                            endforeach;
-                                            ?>
+                                            endforeach; ?>
                                             <hr>
                                         <?php
                                         endif;
-                                        if (!empty($f2b_data['perm_bans'])):
+    if (!empty($f2b_data['perm_bans'])):
                                             foreach ($f2b_data['perm_bans'] as $perm_bans):
                                                 ?>
                                                 <span class="label label-danger"
@@ -944,8 +935,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                         class="glyphicon glyphicon-filter"></span> <?= $perm_bans ?></span>
                                             <?php
                                             endforeach;
-                                        endif;
-                                        ?>
+    endif; ?>
                                     </div>
                                 </div>
 
@@ -1046,14 +1036,17 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                                 class="selectpicker"
                                                                 title="<?= $lang['tfa']['select']; ?>" multiple>
                                                             <?php
-                                                            foreach (array_merge(mailbox('get', 'domains'),
-                                                                mailbox('get', 'alias_domains')) as $domain):
+                                                            foreach (array_merge(
+                                            mailbox('get', 'domains'),
+                                                                mailbox('get', 'alias_domains')
+                                        ) as $domain):
                                                                 ?>
-                                                                <option <?= (in_array($domain,
-                                                                    $q_data['exclude_domains'])) ? 'selected' : null; ?>><?= htmlspecialchars($domain); ?></option>
+                                                                <option <?= (in_array(
+                                                                    $domain,
+                                                                    $q_data['exclude_domains']
+                                                                )) ? 'selected' : null; ?>><?= htmlspecialchars($domain); ?></option>
                                                             <?php
-                                                            endforeach;
-                                                            ?>
+                                                            endforeach; ?>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -1159,9 +1152,10 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                         <?php
                                                         else:
                                                             foreach ($rsettings as $rsetting):
-                                                                $rsetting_details = rsettings('details',
-                                                                    $rsetting['id']);
-                                                                ?>
+                                                                $rsetting_details = rsettings(
+                                                                    'details',
+                                                                    $rsetting['id']
+                                                                ); ?>
                                                                 <a href="#<?= $rsetting_details['id']; ?>"
                                                                    class="list-group-item list-group-item-<?= ($rsetting_details['active_int'] == '1') ? 'success' : ''; ?>"
                                                                    data-dont-remember="1"
@@ -1169,8 +1163,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                                     (ID #<?= $rsetting['id']; ?>)</a>
                                                             <?php
                                                             endforeach;
-                                                        endif;
-                                                        ?>
+    endif; ?>
                                                         <a href="#" class="list-group-item list-group-item-default"
                                                            data-id="add_domain_admin"
                                                            data-toggle="modal"
@@ -1195,9 +1188,10 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                             </div>
                                                             <?php
                                                             foreach ($rsettings as $rsetting):
-                                                                $rsetting_details = rsettings('details',
-                                                                    $rsetting['id']);
-                                                                ?>
+                                                                $rsetting_details = rsettings(
+                                                                    'details',
+                                                                    $rsetting['id']
+                                                                ); ?>
                                                                 <div id="<?= $rsetting_details['id']; ?>"
                                                                      class="tab-pane">
                                                                     <form class="form" data-id="rsettings" role="form"
@@ -1244,8 +1238,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                                 </div>
                                                             <?php
                                                             endforeach;
-                                                        endif;
-                                                        ?>
+    endif; ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1273,8 +1266,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                         </form>
                                         <?php
                                         if ($main_logo = customize('get', 'main_logo')):
-                                            $specs = customize('get', 'main_logo_specs');
-                                            ?>
+                                            $specs = customize('get', 'main_logo_specs'); ?>
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="thumbnail">
@@ -1299,8 +1291,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                 </div>
                                             </div>
                                         <?php
-                                        endif;
-                                        ?>
+                                        endif; ?>
                                         <legend><?= $lang['admin']['app_links']; ?></legend>
                                         <p class="help-block"><?= $lang['admin']['merged_vars_hint']; ?></p>
                                         <form class="form-inline" data-id="app_links" role="form" method="post">
@@ -1313,8 +1304,8 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                 </tr>
                                                 <?php
                                                 $app_links = customize('get', 'app_links');
-                                                foreach ($app_links as $row) {
-                                                    foreach ($row as $key => $val):
+    foreach ($app_links as $row) {
+        foreach ($row as $key => $val):
                                                         ?>
                                                         <tr>
                                                             <td><input class="input-sm form-control" data-id="app_links"
@@ -1329,8 +1320,8 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                         </tr>
                                                     <?php
                                                     endforeach;
-                                                }
-                                                foreach ($MAILCOW_APPS as $app):
+    }
+    foreach ($MAILCOW_APPS as $app):
                                                     ?>
                                                     <tr>
                                                         <td><input class="input-sm form-control"
@@ -1342,8 +1333,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                         <td>&nbsp;</td>
                                                     </tr>
                                                 <?php
-                                                endforeach;
-                                                ?>
+                                                endforeach; ?>
                                             </table>
                                             <p>
                                             <div class="btn-group">
@@ -1361,8 +1351,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                 unselectable="on"><?= $lang['admin']['ui_texts']; ?></legend>
                                         <div id="ui_texts">
                                             <?php
-                                            $ui_texts = customize('get', 'ui_texts');
-                                            ?>
+                                            $ui_texts = customize('get', 'ui_texts'); ?>
                                             <form class="form" data-id="uitexts" role="form" method="post">
                                                 <div class="form-group">
                                                     <label for="title_name"><?= $lang['admin']['title_name']; ?>
@@ -1417,7 +1406,8 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                for="mass_from"><?= $lang['admin']['from']; ?>:</label>
                                         <div class="col-sm-10">
                                             <input type="email" class="form-control" name="mass_from"
-                                                   value="noreply@<?= getenv('MAILCOW_HOSTNAME');; ?>" required>
+                                                   value="noreply@<?= getenv('MAILCOW_HOSTNAME');
+    ; ?>" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -1429,14 +1419,13 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                     </div>
                                     <?php
                                     $domains = array_merge(mailbox('get', 'domains'), mailbox('get', 'alias_domains'));
-                                    if (!empty($domains)) {
-                                        foreach ($domains as $domain) {
-                                            foreach (mailbox('get', 'mailboxes', $domain) as $mailbox) {
-                                                $mailboxes[] = $mailbox;
-                                            }
-                                        }
-                                    }
-                                    ?>
+    if (!empty($domains)) {
+        foreach ($domains as $domain) {
+            foreach (mailbox('get', 'mailboxes', $domain) as $mailbox) {
+                $mailboxes[] = $mailbox;
+            }
+        }
+    } ?>
                                     <div class="form-group">
                                         <label class="control-label col-sm-2"
                                                for="mass_subject"><?= $lang['admin']['include_exclude']; ?>:
@@ -1454,8 +1443,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                         <option><?= htmlspecialchars($mailbox); ?></option>
                                                     <?php
                                                     endforeach;
-                                                }
-                                                ?>
+                                                } ?>
                                             </select>
                                         </div>
                                         <div class="col-sm-5">
@@ -1470,8 +1458,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                         <option><?= htmlspecialchars($mailbox); ?></option>
                                                     <?php
                                                     endforeach;
-                                                }
-                                                ?>
+                                                } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -1576,17 +1563,15 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
         </div> <!-- /row -->
     </div> <!-- /container -->
     <?php
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/modals/admin.php';
-    ?>
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/modals/admin.php'; ?>
     <script type='text/javascript'>
         <?php
         $lang_admin = json_encode($lang['admin']);
-        echo 'var lang = ' . $lang_admin . ";\n";
-        echo "var admin_username = '" . $_SESSION['mailcow_cc_username'] . "';\n";
-        echo "var csrf_token = '" . $_SESSION['CSRF']['TOKEN'] . "';\n";
-        echo "var pagination_size = '" . $PAGINATION_SIZE . "';\n";
-        echo "var log_pagination_size = '" . $LOG_PAGINATION_SIZE . "';\n";
-        ?>
+    echo 'var lang = ' . $lang_admin . ";\n";
+    echo "var admin_username = '" . $_SESSION['mailcow_cc_username'] . "';\n";
+    echo "var csrf_token = '" . $_SESSION['CSRF']['TOKEN'] . "';\n";
+    echo "var pagination_size = '" . $PAGINATION_SIZE . "';\n";
+    echo "var log_pagination_size = '" . $LOG_PAGINATION_SIZE . "';\n"; ?>
     </script>
     <?php
     $js_minifier->add('/web/js/site/admin.js');

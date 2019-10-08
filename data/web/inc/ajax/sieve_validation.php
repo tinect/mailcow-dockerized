@@ -13,11 +13,9 @@ if (isset($_GET['script'])) {
             exit();
         }
         $sieve->parse($_GET['script']);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         echo json_encode(array('type' => 'danger', 'msg' => $e->getMessage()));
         exit();
     }
     echo json_encode(array('type' => 'success', 'msg' => $lang['add']['validation_success']));
 }
-?>

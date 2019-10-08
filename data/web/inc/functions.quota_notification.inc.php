@@ -30,8 +30,7 @@ function quota_notification($_action, $_data = null)
                 $redis->Set('QW_SENDER', $sender);
                 $redis->Set('QW_SUBJ', $subject);
                 $redis->Set('QW_HTML', $html);
-            }
-            catch (RedisException $e) {
+            } catch (RedisException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -53,8 +52,7 @@ function quota_notification($_action, $_data = null)
                 if (empty($settings['html_tmpl'])) {
                     $settings['html_tmpl'] = htmlspecialchars(file_get_contents('/tpls/quota.tpl'));
                 }
-            }
-            catch (RedisException $e) {
+            } catch (RedisException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_action, $_data_log),

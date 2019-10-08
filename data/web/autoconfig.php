@@ -47,9 +47,12 @@ header('Content-Type: application/xml');
         </incomingServer>
 
         <?php
-        $records = dns_get_record('_pop3s._tcp.' . $domain,
-            DNS_SRV); // check if POP3 is announced as "not provided" via SRV record
-        if (count($records) == 0 || $records[0]['target'] != '') { ?>
+        $records = dns_get_record(
+    '_pop3s._tcp.' . $domain,
+            DNS_SRV
+); // check if POP3 is announced as "not provided" via SRV record
+        if (count($records) == 0 || $records[0]['target'] != '') {
+            ?>
             <incomingServer type="pop3">
                 <hostname><?= $autodiscover_config['pop3']['server']; ?></hostname>
                 <port><?= $autodiscover_config['pop3']['port']; ?></port>
@@ -57,11 +60,15 @@ header('Content-Type: application/xml');
                 <username>%EMAILADDRESS%</username>
                 <authentication>password-cleartext</authentication>
             </incomingServer>
-        <?php } ?>
         <?php
-        $records = dns_get_record('_pop3._tcp.' . $domain,
-            DNS_SRV); // check if POP3 is announced as "not provided" via SRV record
-        if (count($records) == 0 || $records[0]['target'] != '') { ?>
+        } ?>
+        <?php
+        $records = dns_get_record(
+            '_pop3._tcp.' . $domain,
+            DNS_SRV
+        ); // check if POP3 is announced as "not provided" via SRV record
+        if (count($records) == 0 || $records[0]['target'] != '') {
+            ?>
             <incomingServer type="pop3">
                 <hostname><?= $autodiscover_config['pop3']['server']; ?></hostname>
                 <port><?= $autodiscover_config['pop3']['tlsport']; ?></port>
@@ -69,7 +76,8 @@ header('Content-Type: application/xml');
                 <username>%EMAILADDRESS%</username>
                 <authentication>password-cleartext</authentication>
             </incomingServer>
-        <?php } ?>
+        <?php
+        } ?>
 
         <outgoingServer type="smtp">
             <hostname><?= $autodiscover_config['smtp']['server']; ?></hostname>

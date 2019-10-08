@@ -44,8 +44,7 @@ function api_log($_data)
             'data' => implode(', ', $data_var)
         );
         $redis->lPush('API_LOG', json_encode($log_line));
-    }
-    catch (RedisException $e) {
+    } catch (RedisException $e) {
         $_SESSION['return'][] = array(
             'type' => 'danger',
             'msg' => 'Redis: ' . $e
@@ -56,7 +55,6 @@ function api_log($_data)
 
 if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_username'])) {
     if (isset($_GET['query'])) {
-
         $query = explode('/', $_GET['query']);
         $action = (isset($query[0])) ? $query[0] : null;
         $category = (isset($query[1])) ? $query[1] : null;
@@ -92,7 +90,6 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
             if ($action == 'delete') {
                 $_POST['items'] = $request;
             }
-
         }
         api_log($_POST);
 
@@ -203,8 +200,10 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
             case 'get':
                 function process_get_return($data)
                 {
-                    echo (!isset($data) || empty($data)) ? '{}' : json_encode($data,
-                        JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                    echo (!isset($data) || empty($data)) ? '{}' : json_encode(
+                        $data,
+                        JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                    );
                 }
 
                 switch ($category) {
@@ -437,8 +436,10 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                                 } else {
                                     $logs = get_logs('dovecot-mailcow');
                                 }
-                                echo (isset($logs) && !empty($logs)) ? json_encode($logs,
-                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) : '{}';
+                                echo (isset($logs) && !empty($logs)) ? json_encode(
+                                    $logs,
+                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                                ) : '{}';
                                 break;
                             case 'ratelimited':
                                 // 0 is first record, so empty is fine
@@ -448,8 +449,10 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                                 } else {
                                     $logs = get_logs('ratelimited');
                                 }
-                                echo (isset($logs) && !empty($logs)) ? json_encode($logs,
-                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) : '{}';
+                                echo (isset($logs) && !empty($logs)) ? json_encode(
+                                    $logs,
+                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                                ) : '{}';
                                 break;
                             case 'netfilter':
                                 // 0 is first record, so empty is fine
@@ -459,8 +462,10 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                                 } else {
                                     $logs = get_logs('netfilter-mailcow');
                                 }
-                                echo (isset($logs) && !empty($logs)) ? json_encode($logs,
-                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) : '{}';
+                                echo (isset($logs) && !empty($logs)) ? json_encode(
+                                    $logs,
+                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                                ) : '{}';
                                 break;
                             case 'postfix':
                                 // 0 is first record, so empty is fine
@@ -470,8 +475,10 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                                 } else {
                                     $logs = get_logs('postfix-mailcow');
                                 }
-                                echo (isset($logs) && !empty($logs)) ? json_encode($logs,
-                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) : '{}';
+                                echo (isset($logs) && !empty($logs)) ? json_encode(
+                                    $logs,
+                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                                ) : '{}';
                                 break;
                             case 'autodiscover':
                                 // 0 is first record, so empty is fine
@@ -481,8 +488,10 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                                 } else {
                                     $logs = get_logs('autodiscover-mailcow');
                                 }
-                                echo (isset($logs) && !empty($logs)) ? json_encode($logs,
-                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) : '{}';
+                                echo (isset($logs) && !empty($logs)) ? json_encode(
+                                    $logs,
+                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                                ) : '{}';
                                 break;
                             case 'sogo':
                                 // 0 is first record, so empty is fine
@@ -492,8 +501,10 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                                 } else {
                                     $logs = get_logs('sogo-mailcow');
                                 }
-                                echo (isset($logs) && !empty($logs)) ? json_encode($logs,
-                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) : '{}';
+                                echo (isset($logs) && !empty($logs)) ? json_encode(
+                                    $logs,
+                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                                ) : '{}';
                                 break;
                             case 'ui':
                                 // 0 is first record, so empty is fine
@@ -503,8 +514,10 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                                 } else {
                                     $logs = get_logs('mailcow-ui');
                                 }
-                                echo (isset($logs) && !empty($logs)) ? json_encode($logs,
-                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) : '{}';
+                                echo (isset($logs) && !empty($logs)) ? json_encode(
+                                    $logs,
+                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                                ) : '{}';
                                 break;
                             case 'watchdog':
                                 // 0 is first record, so empty is fine
@@ -514,8 +527,10 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                                 } else {
                                     $logs = get_logs('watchdog-mailcow');
                                 }
-                                echo (isset($logs) && !empty($logs)) ? json_encode($logs,
-                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) : '{}';
+                                echo (isset($logs) && !empty($logs)) ? json_encode(
+                                    $logs,
+                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                                ) : '{}';
                                 break;
                             case 'acme':
                                 // 0 is first record, so empty is fine
@@ -525,8 +540,10 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                                 } else {
                                     $logs = get_logs('acme-mailcow');
                                 }
-                                echo (isset($logs) && !empty($logs)) ? json_encode($logs,
-                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) : '{}';
+                                echo (isset($logs) && !empty($logs)) ? json_encode(
+                                    $logs,
+                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                                ) : '{}';
                                 break;
                             case 'api':
                                 // 0 is first record, so empty is fine
@@ -536,8 +553,10 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                                 } else {
                                     $logs = get_logs('api-mailcow');
                                 }
-                                echo (isset($logs) && !empty($logs)) ? json_encode($logs,
-                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) : '{}';
+                                echo (isset($logs) && !empty($logs)) ? json_encode(
+                                    $logs,
+                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                                ) : '{}';
                                 break;
                             case 'rspamd-history':
                                 // 0 is first record, so empty is fine
@@ -547,8 +566,10 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                                 } else {
                                     $logs = get_logs('rspamd-history');
                                 }
-                                echo (isset($logs) && !empty($logs)) ? json_encode($logs,
-                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) : '{}';
+                                echo (isset($logs) && !empty($logs)) ? json_encode(
+                                    $logs,
+                                    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                                ) : '{}';
                                 break;
                         }
                         break;
@@ -594,8 +615,12 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                                                 if (!empty($syncjobs)) {
                                                     foreach ($syncjobs as $syncjob) {
                                                         if (isset($extra)) {
-                                                            $details = mailbox('get', 'syncjob_details', $syncjob,
-                                                                explode(',', $extra));
+                                                            $details = mailbox(
+                                                                'get',
+                                                                'syncjob_details',
+                                                                $syncjob,
+                                                                explode(',', $extra)
+                                                            );
                                                         } else {
                                                             $details = mailbox('get', 'syncjob_details', $syncjob);
                                                         }
@@ -620,8 +645,12 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                                 if (!empty($syncjobs)) {
                                     foreach ($syncjobs as $syncjob) {
                                         if (isset($extra)) {
-                                            $details = mailbox('get', 'syncjob_details', $syncjob,
-                                                explode(',', $extra));
+                                            $details = mailbox(
+                                                'get',
+                                                'syncjob_details',
+                                                $syncjob,
+                                                explode(',', $extra)
+                                            );
                                         } else {
                                             $details = mailbox('get', 'syncjob_details', $syncjob);
                                         }
@@ -1161,16 +1190,25 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                         process_edit_return(rsettings('edit', array_merge(array('id' => $items), $attr)));
                         break;
                     case 'delimiter_action':
-                        process_edit_return(mailbox('edit', 'delimiter_action',
-                            array_merge(array('username' => $items), $attr)));
+                        process_edit_return(mailbox(
+                            'edit',
+                            'delimiter_action',
+                            array_merge(array('username' => $items), $attr)
+                        ));
                         break;
                     case 'tls_policy':
-                        process_edit_return(mailbox('edit', 'tls_policy',
-                            array_merge(array('username' => $items), $attr)));
+                        process_edit_return(mailbox(
+                            'edit',
+                            'tls_policy',
+                            array_merge(array('username' => $items), $attr)
+                        ));
                         break;
                     case 'quarantine_notification':
-                        process_edit_return(mailbox('edit', 'quarantine_notification',
-                            array_merge(array('username' => $items), $attr)));
+                        process_edit_return(mailbox(
+                            'edit',
+                            'quarantine_notification',
+                            array_merge(array('username' => $items), $attr)
+                        ));
                         break;
                     case 'qitem':
                         process_edit_return(quarantine('edit', array_merge(array('id' => $items), $attr)));
@@ -1185,12 +1223,18 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                         process_edit_return(mailq('edit', array_merge(array('qid' => $items), $attr)));
                         break;
                     case 'time_limited_alias':
-                        process_edit_return(mailbox('edit', 'time_limited_alias',
-                            array_merge(array('address' => $items), $attr)));
+                        process_edit_return(mailbox(
+                            'edit',
+                            'time_limited_alias',
+                            array_merge(array('address' => $items), $attr)
+                        ));
                         break;
                     case 'mailbox':
-                        process_edit_return(mailbox('edit', 'mailbox',
-                            array_merge(array('username' => $items), $attr)));
+                        process_edit_return(mailbox(
+                            'edit',
+                            'mailbox',
+                            array_merge(array('username' => $items), $attr)
+                        ));
                         break;
                     case 'syncjob':
                         process_edit_return(mailbox('edit', 'syncjob', array_merge(array('id' => $items), $attr)));
@@ -1208,23 +1252,35 @@ if (isset($_SESSION['mailcow_cc_role']) || isset($_SESSION['pending_mailcow_cc_u
                         process_edit_return(ratelimit('edit', 'domain', array_merge(array('object' => $items), $attr)));
                         break;
                     case 'rl-mbox':
-                        process_edit_return(ratelimit('edit', 'mailbox',
-                            array_merge(array('object' => $items), $attr)));
+                        process_edit_return(ratelimit(
+                            'edit',
+                            'mailbox',
+                            array_merge(array('object' => $items), $attr)
+                        ));
                         break;
                     case 'user-acl':
                         process_edit_return(acl('edit', 'user', array_merge(array('username' => $items), $attr)));
                         break;
                     case 'da-acl':
-                        process_edit_return(acl('edit', 'domainadmin',
-                            array_merge(array('username' => $items), $attr)));
+                        process_edit_return(acl(
+                            'edit',
+                            'domainadmin',
+                            array_merge(array('username' => $items), $attr)
+                        ));
                         break;
                     case 'alias-domain':
-                        process_edit_return(mailbox('edit', 'alias_domain',
-                            array_merge(array('alias_domain' => $items), $attr)));
+                        process_edit_return(mailbox(
+                            'edit',
+                            'alias_domain',
+                            array_merge(array('alias_domain' => $items), $attr)
+                        ));
                         break;
                     case 'spam-score':
-                        process_edit_return(mailbox('edit', 'spam_score',
-                            array_merge(array('username' => $items), $attr)));
+                        process_edit_return(mailbox(
+                            'edit',
+                            'spam_score',
+                            array_merge(array('username' => $items), $attr)
+                        ));
                         break;
                     case 'domain-admin':
                         process_edit_return(domain_admin('edit', array_merge(array('username' => $items), $attr)));

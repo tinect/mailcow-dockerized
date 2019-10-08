@@ -44,8 +44,7 @@ $tfa = new RobThree\Auth\TwoFactorAuth($OTP_LABEL, 6, 30, 'sha1', $qrprovider);
 $redis = new Redis();
 try {
     $redis->connect('redis-mailcow', 6379);
-}
-catch (Exception $e) {
+} catch (Exception $e) {
     ?>
     <center style='font-family:sans-serif;'>Connection to Redis failed.<br/><br/>The following error was
         reported:<br/><?= $e->getMessage(); ?></center>
@@ -72,10 +71,8 @@ $opt = array(
 );
 try {
     $pdo = new PDO($dsn, $database_user, $database_pass, $opt);
-}
-catch (PDOException $e) {
-// Stop when SQL connection fails
-    ?>
+} catch (PDOException $e) {
+    // Stop when SQL connection fails ?>
     <center style='font-family:sans-serif;'>Connection to database failed.<br/><br/>The following error was
         reported:<br/> <?= $e->getMessage(); ?></center>
     <?php
@@ -146,7 +143,6 @@ function exception_handler($e)
         'msg' => 'An unknown error occured: ' . print_r($e, true)
     );
     return false;
-
 }
 
 set_exception_handler('exception_handler');
@@ -193,9 +189,14 @@ if (!isset($_SESSION['mailcow_locale']) && !isset($_COOKIE['mailcow_locale'])) {
     }
 }
 if (isset($_COOKIE['mailcow_locale'])) {
-    (preg_match('/^[a-z]{2}$/',
-        $_COOKIE['mailcow_locale'])) ? $_SESSION['mailcow_locale'] = $_COOKIE['mailcow_locale'] : setcookie('mailcow_locale',
-        '', time() - 300);
+    (preg_match(
+        '/^[a-z]{2}$/',
+        $_COOKIE['mailcow_locale']
+    )) ? $_SESSION['mailcow_locale'] = $_COOKIE['mailcow_locale'] : setcookie(
+            'mailcow_locale',
+        '',
+            time() - 300
+        );
 }
 if (isset($_GET['lang']) && in_array($_GET['lang'], $AVAILABLE_LANGUAGES)) {
     $_SESSION['mailcow_locale'] = $_GET['lang'];

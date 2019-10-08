@@ -44,8 +44,7 @@ function ratelimit($_action, $_scope, $_data = null)
                         if (empty($rl_value)) {
                             try {
                                 $redis->hDel('RL_VALUE', $object);
-                            }
-                            catch (RedisException $e) {
+                            } catch (RedisException $e) {
                                 $_SESSION['return'][] = array(
                                     'type' => 'danger',
                                     'log' => array(__FUNCTION__, $_action, $_scope, $_data_log),
@@ -56,8 +55,7 @@ function ratelimit($_action, $_scope, $_data = null)
                         } else {
                             try {
                                 $redis->hSet('RL_VALUE', $object, $rl_value . ' / 1' . $rl_frame);
-                            }
-                            catch (RedisException $e) {
+                            } catch (RedisException $e) {
                                 $_SESSION['return'][] = array(
                                     'type' => 'danger',
                                     'log' => array(__FUNCTION__, $_action, $_scope, $_data_log),
@@ -91,8 +89,11 @@ function ratelimit($_action, $_scope, $_data = null)
                             );
                             continue;
                         }
-                        if (!hasMailboxObjectAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'],
-                                $object)
+                        if (!hasMailboxObjectAccess(
+                            $_SESSION['mailcow_cc_username'],
+                            $_SESSION['mailcow_cc_role'],
+                                $object
+                        )
                             || ($_SESSION['mailcow_cc_role'] != 'admin' && $_SESSION['mailcow_cc_role'] != 'domainadmin')) {
                             $_SESSION['return'][] = array(
                                 'type' => 'danger',
@@ -104,8 +105,7 @@ function ratelimit($_action, $_scope, $_data = null)
                         if (empty($rl_value)) {
                             try {
                                 $redis->hDel('RL_VALUE', $object);
-                            }
-                            catch (RedisException $e) {
+                            } catch (RedisException $e) {
                                 $_SESSION['return'][] = array(
                                     'type' => 'danger',
                                     'log' => array(__FUNCTION__, $_action, $_scope, $_data_log),
@@ -116,8 +116,7 @@ function ratelimit($_action, $_scope, $_data = null)
                         } else {
                             try {
                                 $redis->hSet('RL_VALUE', $object, $rl_value . ' / 1' . $rl_frame);
-                            }
-                            catch (RedisException $e) {
+                            } catch (RedisException $e) {
                                 $_SESSION['return'][] = array(
                                     'type' => 'danger',
                                     'log' => array(__FUNCTION__, $_action, $_scope, $_data_log),
@@ -150,9 +149,7 @@ function ratelimit($_action, $_scope, $_data = null)
                         }
 
                         return false;
-
-                    }
-                    catch (RedisException $e) {
+                    } catch (RedisException $e) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'log' => array(__FUNCTION__, $_action, $_scope, $_data_log),
@@ -176,9 +173,7 @@ function ratelimit($_action, $_scope, $_data = null)
                         }
 
                         return false;
-
-                    }
-                    catch (RedisException $e) {
+                    } catch (RedisException $e) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'log' => array(__FUNCTION__, $_action, $_scope, $_data_log),
@@ -217,9 +212,7 @@ function ratelimit($_action, $_scope, $_data = null)
                     'msg' => 'hash_not_found'
                 );
                 return false;
-
-            }
-            catch (RedisException $e) {
+            } catch (RedisException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_action, $_scope, $_data_log),

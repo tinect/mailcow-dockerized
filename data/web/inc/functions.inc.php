@@ -3,9 +3,8 @@ function isset_has_content($var)
 {
     if (isset($var) && $var != '') {
         return true;
-    }  
-        return false;
-    
+    }
+    return false;
 }
 
 function hash_password($password)
@@ -25,9 +24,8 @@ function last_login($user)
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!empty($row)) {
         return $row;
-    }  
-        return false;
-    
+    }
+    return false;
 }
 
 function flush_memcached()
@@ -36,8 +34,7 @@ function flush_memcached()
         $m = new Memcached();
         $m->addServer('memcached', 11211);
         $m->flush();
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         // Dunno
     }
 }
@@ -122,8 +119,11 @@ function sys_mail($_data)
                 $_SESSION['return'][] = array(
                     'type' => 'warning',
                     'log' => array(__FUNCTION__),
-                    'msg' => 'Mailer error (RCPT "' . htmlspecialchars($rcpt) . '"): ' . str_replace('https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting',
-                            '', $mail->ErrorInfo)
+                    'msg' => 'Mailer error (RCPT "' . htmlspecialchars($rcpt) . '"): ' . str_replace(
+                        'https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting',
+                            '',
+                        $mail->ErrorInfo
+                    )
                 );
             }
             $mail->ClearAllRecipients();
@@ -194,8 +194,7 @@ function logger($_data = false)
                     ':role' => $role,
                     ':remote' => get_remote_ip()
                 ));
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 // Do nothing
             }
         }
@@ -207,8 +206,11 @@ function logger($_data = false)
 function hasDomainAccess($username, $role, $domain)
 {
     global $pdo;
-    if (!filter_var($username, FILTER_VALIDATE_EMAIL) && !ctype_alnum(str_replace(array('_', '.', '-'), '',
-            $username))) {
+    if (!filter_var($username, FILTER_VALIDATE_EMAIL) && !ctype_alnum(str_replace(
+        array('_', '.', '-'),
+        '',
+            $username
+    ))) {
         return false;
     }
     if (empty($domain) || !is_valid_domain_name($domain)) {
@@ -248,8 +250,10 @@ function hasDomainAccess($username, $role, $domain)
 function hasMailboxObjectAccess($username, $role, $object)
 {
     global $pdo;
-    if (!filter_var(html_entity_decode(rawurldecode($username)),
-            FILTER_VALIDATE_EMAIL) && !ctype_alnum(str_replace(array('_', '.', '-'), '', $username))) {
+    if (!filter_var(
+        html_entity_decode(rawurldecode($username)),
+            FILTER_VALIDATE_EMAIL
+    ) && !ctype_alnum(str_replace(array('_', '.', '-'), '', $username))) {
         return false;
     }
     if ($role != 'admin' && $role != 'domainadmin' && $role != 'user') {
@@ -270,8 +274,10 @@ function hasMailboxObjectAccess($username, $role, $object)
 function hasAliasObjectAccess($username, $role, $object)
 {
     global $pdo;
-    if (!filter_var(html_entity_decode(rawurldecode($username)),
-            FILTER_VALIDATE_EMAIL) && !ctype_alnum(str_replace(array('_', '.', '-'), '', $username))) {
+    if (!filter_var(
+        html_entity_decode(rawurldecode($username)),
+            FILTER_VALIDATE_EMAIL
+    ) && !ctype_alnum(str_replace(array('_', '.', '-'), '', $username))) {
         return false;
     }
     if ($role != 'admin' && $role != 'domainadmin' && $role != 'user') {
@@ -312,8 +318,14 @@ function generate_tlsa_digest($hostname, $port, $starttls = null)
                 'allow_self_signed' => true
             )
         ));
-        $stream = stream_socket_client('ssl://' . $hostname . ':' . $port, $error_nr, $error_msg, 5,
-            STREAM_CLIENT_CONNECT, $context);
+        $stream = stream_socket_client(
+            'ssl://' . $hostname . ':' . $port,
+            $error_nr,
+            $error_msg,
+            5,
+            STREAM_CLIENT_CONNECT,
+            $context
+        );
         if (!$stream) {
             $error_msg = isset($error_msg) ? $error_msg : '-';
             return $error_nr . ': ' . $error_msg;
@@ -356,9 +368,8 @@ function generate_tlsa_digest($hostname, $port, $starttls = null)
         // We cannot get ['rsa']['n'], the binary data would contain BEGIN/END PUBLIC KEY
         $key_data = openssl_pkey_get_details($key_resource)['key'];
         return '3 1 1 ' . openssl_digest(pem_to_der($key_data), 'sha256');
-    }  
-        return 'Error: Cannot read peer certificate';
-    
+    }
+    return 'Error: Cannot read peer certificate';
 }
 
 function alertbox_log_parser($_data)
@@ -475,18 +486,17 @@ function check_login($user, $pass)
                     'msg' => 'awaiting_tfa_confirmation'
                 );
                 return 'pending';
-            }  
-                unset($_SESSION['ldelay']);
-                // Reactivate TFA if it was set to "deactivate TFA for next login"
-                $stmt = $pdo->prepare("UPDATE `tfa` SET `active`='1' WHERE `username` = :user");
-                $stmt->execute(array(':user' => $user));
-                $_SESSION['return'][] = array(
+            }
+            unset($_SESSION['ldelay']);
+            // Reactivate TFA if it was set to "deactivate TFA for next login"
+            $stmt = $pdo->prepare("UPDATE `tfa` SET `active`='1' WHERE `username` = :user");
+            $stmt->execute(array(':user' => $user));
+            $_SESSION['return'][] = array(
                     'type' => 'success',
                     'log' => array(__FUNCTION__, $user, '*'),
                     'msg' => array('logged_in_as', $user)
                 );
-                return 'admin';
-            
+            return 'admin';
         }
     }
     $stmt = $pdo->prepare("SELECT `password` FROM `admin`
@@ -508,18 +518,17 @@ function check_login($user, $pass)
                     'msg' => 'awaiting_tfa_confirmation'
                 );
                 return 'pending';
-            }  
-                unset($_SESSION['ldelay']);
-                // Reactivate TFA if it was set to "deactivate TFA for next login"
-                $stmt = $pdo->prepare("UPDATE `tfa` SET `active`='1' WHERE `username` = :user");
-                $stmt->execute(array(':user' => $user));
-                $_SESSION['return'][] = array(
+            }
+            unset($_SESSION['ldelay']);
+            // Reactivate TFA if it was set to "deactivate TFA for next login"
+            $stmt = $pdo->prepare("UPDATE `tfa` SET `active`='1' WHERE `username` = :user");
+            $stmt->execute(array(':user' => $user));
+            $_SESSION['return'][] = array(
                     'type' => 'success',
                     'log' => array(__FUNCTION__, $user, '*'),
                     'msg' => array('logged_in_as', $user)
                 );
-                return 'domainadmin';
-            
+            return 'domainadmin';
         }
     }
     $stmt = $pdo->prepare("SELECT `password` FROM `mailbox`
@@ -646,8 +655,7 @@ function edit_user_account($_data)
                     ':password_hashed' => $password_hashed,
                     ':username' => $username
                 ));
-            }
-            catch (PDOException $e) {
+            } catch (PDOException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_data_log),
@@ -703,7 +711,8 @@ function user_get_alias_details($username)
         array(
             ':username_goto' => $username,
             ':username_address' => $username
-        ));
+        )
+    );
     $run = $stmt->fetchAll(PDO::FETCH_ASSOC);
     while ($row = array_shift($run)) {
         $data['direct_aliases'][$row['direct_aliases']]['public_comment'] = htmlspecialchars($row['public_comment']);
@@ -829,8 +838,7 @@ function set_tfa($_data)
                     ':username' => $username,
                     ':secret' => $yubico_id . ':' . $yubico_key . ':' . $yubico_modhex_id
                 ));
-            }
-            catch (PDOException $e) {
+            } catch (PDOException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_data_log),
@@ -865,8 +873,7 @@ function set_tfa($_data)
                     'msg' => array('object_modified', $username)
                 );
                 $_SESSION['regReq'] = null;
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_data_log),
@@ -884,8 +891,7 @@ function set_tfa($_data)
                     $stmt->execute(array(':username' => $username));
                     $stmt = $pdo->prepare("INSERT INTO `tfa` (`username`, `key_id`, `authmech`, `secret`, `active`) VALUES (?, ?, 'totp', ?, '1')");
                     $stmt->execute(array($username, $key_id, $_POST['totp_secret']));
-                }
-                catch (PDOException $e) {
+                } catch (PDOException $e) {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_data_log),
@@ -910,8 +916,7 @@ function set_tfa($_data)
             try {
                 $stmt = $pdo->prepare('DELETE FROM `tfa` WHERE `username` = :username');
                 $stmt->execute(array(':username' => $username));
-            }
-            catch (PDOException $e) {
+            } catch (PDOException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_data_log),
@@ -974,8 +979,7 @@ function unset_tfa_key($_data)
             'log' => array(__FUNCTION__, $_data_log),
             'msg' => array('object_modified', $username)
         );
-    }
-    catch (PDOException $e) {
+    } catch (PDOException $e) {
         $_SESSION['return'][] = array(
             'type' => 'danger',
             'log' => array(__FUNCTION__, $_data_log),
@@ -1091,7 +1095,7 @@ function verify_tfa_login($username, $token)
                     'msg' => array('yotp_verification_failed', $yauth->getMessage())
                 );
                 return false;
-            }  
+            }
                 $_SESSION['tfa_id'] = $row['id'];
                 $_SESSION['return'][] = array(
                     'type' => 'success',
@@ -1109,8 +1113,11 @@ function verify_tfa_login($username, $token)
             break;
         case 'u2f':
             try {
-                $reg = $u2f->doAuthenticate(json_decode($_SESSION['authReq']), get_u2f_registrations($username),
-                    json_decode($token));
+                $reg = $u2f->doAuthenticate(
+                    json_decode($_SESSION['authReq']),
+                    get_u2f_registrations($username),
+                    json_decode($token)
+                );
                 $stmt = $pdo->prepare('UPDATE `tfa` SET `counter` = ? WHERE `id` = ?');
                 $stmt->execute(array($reg->counter, $reg->id));
                 $_SESSION['tfa_id'] = $reg->id;
@@ -1121,8 +1128,7 @@ function verify_tfa_login($username, $token)
                     'msg' => 'verified_u2f_login'
                 );
                 return true;
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $username, '*'),
@@ -1164,8 +1170,7 @@ function verify_tfa_login($username, $token)
                     'msg' => 'totp_verification_failed'
                 );
                 return false;
-            }
-            catch (PDOException $e) {
+            } catch (PDOException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $username, '*'),
@@ -1318,8 +1323,7 @@ function license($action, $data = null)
             try {
                 // json_encode needs "true"/"false" instead of true/false, to not encode it to 0 or 1
                 $redis->Set('LICENSE_STATUS_CACHE', json_encode($_SESSION['gal']));
-            }
-            catch (RedisException $e) {
+            } catch (RedisException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -1376,9 +1380,13 @@ function rspamd_ui($action, $data = null)
                 );
                 return false;
             }
-            $docker_return = docker('post', 'rspamd-mailcow', 'exec',
+            $docker_return = docker(
+                'post',
+                'rspamd-mailcow',
+                'exec',
                 array('cmd' => 'rspamd', 'task' => 'worker_password', 'raw' => $rspamd_ui_pass),
-                array('Content-Type: application/json'));
+                array('Content-Type: application/json')
+            );
             if ($docker_return_array = json_decode($docker_return, true)) {
                 if ($docker_return_array['type'] == 'success') {
                     $_SESSION['return'][] = array(
@@ -1387,15 +1395,14 @@ function rspamd_ui($action, $data = null)
                         'msg' => 'rspamd_ui_pw_set'
                     );
                     return true;
-                }  
-                    $_SESSION['return'][] = array(
+                }
+                $_SESSION['return'][] = array(
                         'type' => $docker_return_array['type'],
                         'log' => array(__FUNCTION__, '*', '*'),
                         'msg' => $docker_return_array['msg']
                     );
-                    return false;
-                
-            }  
+                return false;
+            }
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, '*', '*'),
@@ -1422,7 +1429,7 @@ function get_logs($application, $lines = false)
     } elseif (is_numeric($lines) && $lines >= 1) {
         $lines = abs(intval($lines) - 1);
     } else {
-        list ($from, $to) = explode('-', $lines);
+        list($from, $to) = explode('-', $lines);
         $from = intval($from);
         $to = intval($to);
         if ($from < 1 || $to < $from) {
@@ -1577,7 +1584,7 @@ function get_logs($application, $lines = false)
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_UNIX_SOCKET_PATH, '/var/lib/rspamd/rspamd.sock');
         if (!is_numeric($lines)) {
-            list ($from, $to) = explode('-', $lines);
+            list($from, $to) = explode('-', $lines);
             curl_setopt($curl, CURLOPT_URL, 'http://rspamd/history?from=' . intval($from) . '&to=' . intval($to));
         } else {
             curl_setopt($curl, CURLOPT_URL, 'http://rspamd/history?to=' . intval($lines));
@@ -1629,29 +1636,27 @@ function solr_status()
         $err = curl_error($curl);
         curl_close($curl);
         return false;
-    }  
+    }
+    curl_close($curl);
+    $curl = curl_init();
+    $status_core = json_decode($response_core, true);
+    $url = 'http://solr:8983/solr/admin/info/system';
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl, CURLOPT_POST, 0);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+    $response_sysinfo = curl_exec($curl);
+    if ($response_sysinfo === false) {
+        $err = curl_error($curl);
         curl_close($curl);
-        $curl = curl_init();
-        $status_core = json_decode($response_core, true);
-        $url = 'http://solr:8983/solr/admin/info/system';
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_POST, 0);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
-        $response_sysinfo = curl_exec($curl);
-        if ($response_sysinfo === false) {
-            $err = curl_error($curl);
-            curl_close($curl);
-            return false;
-        }  
-            curl_close($curl);
-            $status_sysinfo = json_decode($response_sysinfo, true);
-            $status = array_merge($status_core, $status_sysinfo);
-            return (!empty($status['status']['dovecot-fts']) && !empty($status['jvm']['memory'])) ? $status : false;
+        return false;
+    }
+    curl_close($curl);
+    $status_sysinfo = json_decode($response_sysinfo, true);
+    $status = array_merge($status_core, $status_sysinfo);
+    return (!empty($status['status']['dovecot-fts']) && !empty($status['jvm']['memory'])) ? $status : false;
         
-        return (!empty($status['status']['dovecot-fts'])) ? $status['status']['dovecot-fts'] : false;
+    return (!empty($status['status']['dovecot-fts'])) ? $status['status']['dovecot-fts'] : false;
     
     return false;
 }
-
-?>

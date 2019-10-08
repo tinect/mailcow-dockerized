@@ -1,10 +1,12 @@
 <?php
-$finder = PhpCsFixer\Finder::create()->in(__DIR__);
+$finder = PhpCsFixer\Finder::create()
+            ->exclude(['lib','lang']);
 
 return PhpCsFixer\Config::create()
     ->setUsingCache(false)
     ->setRules(
         [
+            '@PSR2' => true,
             'single_quote' => true,
             'no_useless_else' => true,
             'no_useless_return' => true,

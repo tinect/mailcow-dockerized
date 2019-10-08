@@ -34,8 +34,7 @@ function relayhost($_action, $_data = null)
                     ':password' => str_replace(':', '\:', $password),
                     ':active' => '1'
                 ));
-            }
-            catch (PDOException $e) {
+            } catch (PDOException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -88,8 +87,7 @@ function relayhost($_action, $_data = null)
                         ':password' => $password,
                         ':active' => $active
                     ));
-                }
-                catch (PDOException $e) {
+                } catch (PDOException $e) {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -120,8 +118,7 @@ function relayhost($_action, $_data = null)
                     $stmt->execute(array(':id' => $id));
                     $stmt = $pdo->prepare("UPDATE `domain` SET `relayhost` = '0' WHERE `relayhost`= :id");
                     $stmt->execute(array(':id' => $id));
-                }
-                catch (PDOException $e) {
+                } catch (PDOException $e) {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -233,9 +230,14 @@ function transport($_action, $_data = null)
                             continue;
                         }
                         // ".domain" is a valid destination, "..domain" is not
-                        if (empty($dest) || (is_valid_domain_name(preg_replace('/^' . preg_quote('.', '/') . '/', '',
-                                    $dest)) === false && $dest != '*' && filter_var($dest,
-                                    FILTER_VALIDATE_EMAIL) === false)) {
+                        if (empty($dest) || (is_valid_domain_name(preg_replace(
+                            '/^' . preg_quote('.', '/') . '/',
+                            '',
+                                    $dest
+                        )) === false && $dest != '*' && filter_var(
+                                        $dest,
+                                    FILTER_VALIDATE_EMAIL
+                                    ) === false)) {
                             $_SESSION['return'][] = array(
                                 'type' => 'danger',
                                 'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -398,8 +400,7 @@ function transport($_action, $_data = null)
                         ':username' => $username,
                         ':password' => $password
                     ));
-                }
-                catch (PDOException $e) {
+                } catch (PDOException $e) {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -428,8 +429,7 @@ function transport($_action, $_data = null)
                 try {
                     $stmt = $pdo->prepare('DELETE FROM `transports` WHERE `id`= :id');
                     $stmt->execute(array(':id' => $id));
-                }
-                catch (PDOException $e) {
+                } catch (PDOException $e) {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_action, $_data_log),

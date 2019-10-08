@@ -9,9 +9,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'doma
     require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
     $_SESSION['return_to'] = $_SERVER['REQUEST_URI'];
     $tfa_data = get_tfa();
-    $username = $_SESSION['mailcow_cc_username'];
-
-    ?>
+    $username = $_SESSION['mailcow_cc_username']; ?>
     <div class="container">
         <h3><?= $lang['user']['user_settings']; ?></h3>
         <div class="panel panel-default">
@@ -29,8 +27,8 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'doma
                                     data-time="<?= $_SESSION['mailcow_cc_last_login']['time']; ?>"
                                     class="last_login_date"></span> (<?= $_SESSION['mailcow_cc_last_login']['remote']; ?>)
                                 <?php
-                                else: echo 'Last login: -'; endif;
-                                ?>
+                                else: echo 'Last login: -';
+    endif; ?>
                             </small></p>
                         <p>
                     </div>
@@ -51,7 +49,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'doma
                                                 ]</a></div>
                                     </form>
                                 <?php endforeach;
-                            endif; ?>
+    endif; ?>
                         </div>
                         <br/>
                     </div>
@@ -77,28 +75,29 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'doma
     / USER
     */
 
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
-    $_SESSION['return_to'] = $_SERVER['REQUEST_URI'];
-    $username = $_SESSION['mailcow_cc_username'];
-    $mailboxdata = mailbox('get', 'mailbox_details', $username);
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
+        $_SESSION['return_to'] = $_SERVER['REQUEST_URI'];
+        $username = $_SESSION['mailcow_cc_username'];
+        $mailboxdata = mailbox('get', 'mailbox_details', $username);
 
-    $clientconfigstr = 'host=' . urlencode($mailcow_hostname) . '&email=' . urlencode($username) . '&name=' . urlencode($mailboxdata['name']) . '&ui=' . urlencode(strtok($_SERVER['HTTP_HOST'],
-            ':')) . '&port=' . urlencode($autodiscover_config['caldav']['port']);
-    if ($autodiscover_config['useEASforOutlook'] == 'yes') {
-        $clientconfigstr .= '&outlookEAS=1';
-    }
-    if (file_exists('thunderbird-plugins/version.csv')) {
-        $fh = fopen('thunderbird-plugins/version.csv', 'r');
-        if ($fh) {
-            while (($row = fgetcsv($fh, 1000, ';')) !== false) {
-                if ($row[0] == 'sogo-integrator@inverse.ca') {
-                    $clientconfigstr .= '&integrator=' . urlencode($row[1]);
-                }
-            }
-            fclose($fh);
+        $clientconfigstr = 'host=' . urlencode($mailcow_hostname) . '&email=' . urlencode($username) . '&name=' . urlencode($mailboxdata['name']) . '&ui=' . urlencode(strtok(
+        $_SERVER['HTTP_HOST'],
+            ':'
+    )) . '&port=' . urlencode($autodiscover_config['caldav']['port']);
+        if ($autodiscover_config['useEASforOutlook'] == 'yes') {
+            $clientconfigstr .= '&outlookEAS=1';
         }
-    }
-    ?>
+        if (file_exists('thunderbird-plugins/version.csv')) {
+            $fh = fopen('thunderbird-plugins/version.csv', 'r');
+            if ($fh) {
+                while (($row = fgetcsv($fh, 1000, ';')) !== false) {
+                    if ($row[0] == 'sogo-integrator@inverse.ca') {
+                        $clientconfigstr .= '&integrator=' . urlencode($row[1]);
+                    }
+                }
+                fclose($fh);
+            }
+        } ?>
     <div class="container">
 
         <!-- Nav tabs -->
@@ -141,15 +140,14 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'doma
                                             <span data-time="<?= $_SESSION['mailcow_cc_last_login']['time']; ?>"
                                                   class="last_login_date"></span> (<?= $_SESSION['mailcow_cc_last_login']['remote']; ?>)
                                         <?php
-                                        else: echo 'Last login: -'; endif;
-                                        ?>
+                                        else: echo 'Last login: -';
+        endif; ?>
                                     </small></p>
                             </div>
                         </div>
                         <hr>
                         <?php // Get user information about aliases
-                        $user_get_alias_details = user_get_alias_details($username);
-                        ?>
+                        $user_get_alias_details = user_get_alias_details($username); ?>
                         <div class="row">
                             <div class="col-md-3 col-xs-5 text-right"><?= $lang['user']['direct_aliases']; ?>:
                                 <p class="small"><?= $lang['user']['direct_aliases_desc']; ?></p>
@@ -161,12 +159,14 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'doma
                                 } else {
                                     foreach (array_filter($user_get_alias_details['direct_aliases']) as $direct_alias => $direct_alias_meta) {
                                         (!empty($direct_alias_meta['public_comment'])) ?
-                                            printf('%s &mdash; <span class="bg-info">%s</span><br>', $direct_alias,
-                                                $direct_alias_meta['public_comment']) :
+                                            printf(
+                                                '%s &mdash; <span class="bg-info">%s</span><br>',
+                                                $direct_alias,
+                                                $direct_alias_meta['public_comment']
+                                            ) :
                                             printf('%s<br>', $direct_alias);
                                     }
-                                }
-                                ?>
+                                } ?>
                             </div>
                         </div>
                         <div class="row">
@@ -180,13 +180,15 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'doma
                                 } else {
                                     foreach (array_filter($user_get_alias_details['shared_aliases']) as $shared_alias => $shared_alias_meta) {
                                         (!empty($shared_alias_meta['public_comment'])) ?
-                                            printf('%s &mdash; <span class="bg-info">%s</span><br>', $shared_alias,
-                                                $shared_alias_meta['public_comment']) :
+                                            printf(
+                                                '%s &mdash; <span class="bg-info">%s</span><br>',
+                                                $shared_alias,
+                                                $shared_alias_meta['public_comment']
+                                            ) :
 
                                             printf('%s<br>', $shared_alias);
                                     }
-                                }
-                                ?>
+                                } ?>
                             </div>
                         </div>
                         <hr>
@@ -230,8 +232,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'doma
                         <hr>
                         <?php
                         // Show tagging options
-                        $get_tagging_options = mailbox('get', 'delimiter_action', $username);
-                        ?>
+                        $get_tagging_options = mailbox('get', 'delimiter_action', $username); ?>
                         <div class="row">
                             <div class="col-md-3 col-xs-5 text-right"><?= $lang['user']['tag_handling']; ?>:</div>
                             <div class="col-md-9 col-xs-7">
@@ -264,8 +265,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'doma
                         </div>
                         <?php
                         // Show TLS policy options
-                        $get_tls_policy = mailbox('get', 'tls_policy', $username);
-                        ?>
+                        $get_tls_policy = mailbox('get', 'tls_policy', $username); ?>
                         <div class="row">
                             <div class="col-md-3 col-xs-5 text-right"><?= $lang['user']['tls_policy']; ?>:</div>
                             <div class="col-md-9 col-xs-7">
@@ -290,8 +290,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'doma
                         </div>
                         <?php
                         // Show quarantine_notification options
-                        $quarantine_notification = mailbox('get', 'quarantine_notification', $username);
-                        ?>
+                        $quarantine_notification = mailbox('get', 'quarantine_notification', $username); ?>
                         <div class="row">
                             <div class="col-md-3 col-xs-5 text-right"><?= $lang['user']['quarantine_notification']; ?>
                                 :
@@ -568,19 +567,17 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'doma
     </div><!-- /container -->
     <div style="margin-bottom:200px;"></div>
     <?php
-}
+    }
 if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] != 'admin') {
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/modals/user.php';
-    ?>
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/modals/user.php'; ?>
     <script type='text/javascript'>
         <?php
         $lang_user = json_encode($lang['user']);
-        echo 'var lang = ' . $lang_user . ";\n";
-        echo "var acl = '" . json_encode($_SESSION['acl']) . "';\n";
-        echo "var csrf_token = '" . $_SESSION['CSRF']['TOKEN'] . "';\n";
-        echo "var mailcow_cc_username = '" . $_SESSION['mailcow_cc_username'] . "';\n";
-        echo "var pagination_size = '" . $PAGINATION_SIZE . "';\n";
-        ?>
+    echo 'var lang = ' . $lang_user . ";\n";
+    echo "var acl = '" . json_encode($_SESSION['acl']) . "';\n";
+    echo "var csrf_token = '" . $_SESSION['CSRF']['TOKEN'] . "';\n";
+    echo "var mailcow_cc_username = '" . $_SESSION['mailcow_cc_username'] . "';\n";
+    echo "var pagination_size = '" . $PAGINATION_SIZE . "';\n"; ?>
     </script>
     <?php
     $js_minifier->add('/web/js/site/user.js');

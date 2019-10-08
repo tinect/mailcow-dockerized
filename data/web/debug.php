@@ -8,8 +8,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
         $solr_status = solr_status();
     } else {
         $solr_status = false;
-    }
-    ?>
+    } ?>
     <div class="container">
 
         <ul class="nav nav-tabs" role="tablist">
@@ -55,13 +54,16 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
         <div class="row">
             <div class="col-md-12">
                 <div class="tab-content" style="padding-top:20px">
-                    <div class="debug-log-info"><?= sprintf($lang['debug']['log_info'],
-                            getenv('LOG_LINES') + 1); ?></div>
+                    <div class="debug-log-info"><?= sprintf(
+        $lang['debug']['log_info'],
+                            getenv('LOG_LINES') + 1
+    ); ?></div>
                     <?php
                     $exec_fields = array('cmd' => 'system', 'task' => 'df', 'dir' => '/var/vmail');
-                    $vmail_df = explode(',',
-                        json_decode(docker('post', 'dovecot-mailcow', 'exec', $exec_fields), true));
-                    ?>
+    $vmail_df = explode(
+                        ',',
+                        json_decode(docker('post', 'dovecot-mailcow', 'exec', $exec_fields), true)
+                    ); ?>
                     <div role="tabpanel" class="tab-pane active" id="tab-containers">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -122,8 +124,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                             ?>
                                             <p><?= $lang['debug']['solr_dead']; ?></p>
                                         <?php
-                                        endif;
-                                        ?>
+                                        endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -136,29 +137,29 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                 <ul class="list-group">
                                     <?php
                                     $containers = (docker('info'));
-                                    foreach ($containers as $container => $container_info) {
-                                        ?>
+    foreach ($containers as $container => $container_info) {
+        ?>
                                         <li class="list-group-item">
                                             <?= $container . ' (' . $container_info['Config']['Image'] . ')'; ?>
                                             <?php
                                             date_default_timezone_set('UTC');
-                                            $StartedAt = date_parse($container_info['State']['StartedAt']);
-                                            if ($StartedAt['hour'] !== false) {
-                                                $date = new DateTime();
-                                                $date->setTimestamp(mktime(
+        $StartedAt = date_parse($container_info['State']['StartedAt']);
+        if ($StartedAt['hour'] !== false) {
+            $date = new DateTime();
+            $date->setTimestamp(mktime(
                                                     $StartedAt['hour'],
                                                     $StartedAt['minute'],
                                                     $StartedAt['second'],
                                                     $StartedAt['month'],
                                                     $StartedAt['day'],
-                                                    $StartedAt['year']));
-                                                $user_tz = new DateTimeZone(getenv('TZ'));
-                                                $date->setTimezone($user_tz);
-                                                $started = $date->format('r');
-                                            } else {
-                                                $started = '?';
-                                            }
-                                            ?>
+                                                    $StartedAt['year']
+                                                ));
+            $user_tz = new DateTimeZone(getenv('TZ'));
+            $date->setTimezone($user_tz);
+            $started = $date->format('r');
+        } else {
+            $started = '?';
+        } ?>
                                             <small>(<?= $lang['debug']['started_on']; ?> <?= $started; ?>),
                                                 <a href data-toggle="modal" data-container="<?= $container; ?>"
                                                    data-target="#RestartContainer"><?= $lang['debug']['restart_container']; ?></a></small>
@@ -166,8 +167,7 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
                                                 class="pull-right container-indicator label label-<?= ($container_info['State'] !== false && !empty($container_info['State'])) ? (($container_info['State']['Running'] == 1) ? 'success' : 'danger') : 'default'; ?>">&nbsp;</span>
                                         </li>
                                         <?php
-                                    }
-                                    ?>
+    } ?>
                                 </ul>
                             </div>
                         </div>
@@ -438,16 +438,13 @@ if (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == 'admi
         </div> <!-- /row -->
     </div> <!-- /container -->
     <?php
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/modals/debug.php';
-    ?>
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/modals/debug.php'; ?>
     <script type='text/javascript'>
         <?php
         $lang_admin = json_encode($lang['admin']);
-        echo 'var lang = ' . $lang_admin . ";\n";
-        echo "var csrf_token = '" . $_SESSION['CSRF']['TOKEN'] . "';\n";
-        echo "var log_pagination_size = '" . $LOG_PAGINATION_SIZE . "';\n";
-
-        ?>
+    echo 'var lang = ' . $lang_admin . ";\n";
+    echo "var csrf_token = '" . $_SESSION['CSRF']['TOKEN'] . "';\n";
+    echo "var log_pagination_size = '" . $LOG_PAGINATION_SIZE . "';\n"; ?>
     </script>
     <?php
     $js_minifier->add('/web/js/site/debug.js');

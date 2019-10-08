@@ -2,8 +2,10 @@
 session_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/prerequisites.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
-if (preg_match('/^([a-f0-9]{64})$/', $_POST['quick_release']) || preg_match('/^([a-f0-9]{64})$/',
-        $_POST['quick_delete'])) {
+if (preg_match('/^([a-f0-9]{64})$/', $_POST['quick_release']) || preg_match(
+    '/^([a-f0-9]{64})$/',
+        $_POST['quick_delete']
+)) {
     ?>
     <div class="container">
         <div class="row">
@@ -22,8 +24,8 @@ if (preg_match('/^([a-f0-9]{64})$/', $_POST['quick_release']) || preg_match('/^(
     </div> <!-- /container -->
     <?php
 } elseif (in_array($_GET['action'], array('release', 'delete'))) {
-    if (preg_match('/^([a-f0-9]{64})$/', $_GET['hash'])) {
-        if ($_GET['action'] == 'release'):
+        if (preg_match('/^([a-f0-9]{64})$/', $_GET['hash'])) {
+            if ($_GET['action'] == 'release'):
             ?>
             <div class="container">
                 <div class="row">
@@ -70,7 +72,7 @@ if (preg_match('/^([a-f0-9]{64})$/', $_POST['quick_release']) || preg_match('/^(
             </div> <!-- /container -->
         <?php
         endif;
+        }
     }
-}
 require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/footer.inc.php';
 ?>

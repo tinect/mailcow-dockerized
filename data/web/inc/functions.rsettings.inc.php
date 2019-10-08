@@ -33,8 +33,7 @@ function rsettings($_action, $_data = null)
                     ':desc' => $desc,
                     ':active' => $active
                 ));
-            }
-            catch (PDOException $e) {
+            } catch (PDOException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -85,8 +84,7 @@ function rsettings($_action, $_data = null)
                         ':active' => $active,
                         ':id' => $id
                     ));
-                }
-                catch (PDOException $e) {
+                } catch (PDOException $e) {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -115,8 +113,7 @@ function rsettings($_action, $_data = null)
                 try {
                     $stmt = $pdo->prepare('DELETE FROM `settingsmap` WHERE `id`= :id');
                     $stmt->execute(array(':id' => $id));
-                }
-                catch (PDOException $e) {
+                } catch (PDOException $e) {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_action, $_data_log),

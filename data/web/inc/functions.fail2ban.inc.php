@@ -2,11 +2,17 @@
 function valid_network($network)
 {
     $cidr = explode('/', $network);
-    if (filter_var($cidr[0], FILTER_VALIDATE_IP,
-            FILTER_FLAG_IPV4) && (!isset($cidr[1]) || ($cidr[1] >= 0 && $cidr[1] <= 32))) {
+    if (filter_var(
+        $cidr[0],
+        FILTER_VALIDATE_IP,
+            FILTER_FLAG_IPV4
+    ) && (!isset($cidr[1]) || ($cidr[1] >= 0 && $cidr[1] <= 32))) {
         return true;
-    } elseif (filter_var($cidr[0], FILTER_VALIDATE_IP,
-            FILTER_FLAG_IPV6) && (!isset($cidr[1]) || ($cidr[1] >= 0 && $cidr[1] <= 128))) {
+    } elseif (filter_var(
+        $cidr[0],
+        FILTER_VALIDATE_IP,
+            FILTER_FLAG_IPV6
+    ) && (!isset($cidr[1]) || ($cidr[1] >= 0 && $cidr[1] <= 128))) {
         return true;
     }
     return false;
@@ -75,15 +81,18 @@ function fail2ban($_action, $_data = null)
                         $f2b_options['active_bans'][] = array(
                             'queued_for_unban' => $queued_for_unban,
                             'network' => $network,
-                            'banned_until' => sprintf('%02dh %02dm %02ds', ($difference / 3600),
-                                ($difference / 60 % 60), $difference % 60)
+                            'banned_until' => sprintf(
+                                '%02dh %02dm %02ds',
+                                ($difference / 3600),
+                                ($difference / 60 % 60),
+                                $difference % 60
+                            )
                         );
                     }
                 } else {
                     $f2b_options['active_bans'] = '';
                 }
-            }
-            catch (RedisException $e) {
+            } catch (RedisException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -137,8 +146,7 @@ function fail2ban($_action, $_data = null)
                                 continue;
                             }
                         }
-                    }
-                    catch (RedisException $e) {
+                    } catch (RedisException $e) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -203,8 +211,7 @@ function fail2ban($_action, $_data = null)
                         }
                     }
                 }
-            }
-            catch (RedisException $e) {
+            } catch (RedisException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_action, $_data_log),

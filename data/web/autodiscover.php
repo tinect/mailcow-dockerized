@@ -57,8 +57,7 @@ $login_role = check_login($login_user, $login_pass);
 
 if ($login_role === 'user') {
     header('Content-Type: application/xml');
-    echo '<?xml version="1.0" encoding="utf-8" ?>' . PHP_EOL;
-    ?>
+    echo '<?xml version="1.0" encoding="utf-8" ?>' . PHP_EOL; ?>
     <Autodiscover xmlns="http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006">
     <?php
     if (!$data) {
@@ -73,16 +72,14 @@ if ($login_role === 'user') {
             );
             $redis->lPush('AUTODISCOVER_LOG', $json);
             $redis->lTrim('AUTODISCOVER_LOG', 0, 100);
-        }
-        catch (RedisException $e) {
+        } catch (RedisException $e) {
             $_SESSION['return'][] = array(
                 'type' => 'danger',
                 'msg' => 'Redis: ' . $e
             );
             return false;
         }
-        list($usec, $sec) = explode(' ', microtime());
-        ?>
+        list($usec, $sec) = explode(' ', microtime()); ?>
         <Response>
             <Error Time="<?= date('H:i:s', $sec) . substr($usec, 0, strlen($usec) - 2); ?>" Id="2477272013">
                 <ErrorCode>600</ErrorCode>
@@ -97,8 +94,7 @@ if ($login_role === 'user') {
     try {
         $discover = new SimpleXMLElement($data);
         $email = $discover->Request->EMailAddress;
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         $email = $_SERVER['PHP_AUTH_USER'];
     }
 
@@ -107,8 +103,7 @@ if ($login_role === 'user') {
         $stmt = $pdo->prepare('SELECT `name` FROM `mailbox` WHERE `username`= :username');
         $stmt->execute(array(':username' => $username));
         $MailboxData = $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-    catch (PDOException $e) {
+    } catch (PDOException $e) {
         die('Failed to determine name from SQL');
     }
     if (!empty($MailboxData['name'])) {
@@ -127,8 +122,7 @@ if ($login_role === 'user') {
         );
         $redis->lPush('AUTODISCOVER_LOG', $json);
         $redis->lTrim('AUTODISCOVER_LOG', 0, 100);
-    }
-    catch (RedisException $e) {
+    } catch (RedisException $e) {
         $_SESSION['return'][] = array(
             'type' => 'danger',
             'msg' => 'Redis: ' . $e
@@ -170,8 +164,8 @@ if ($login_role === 'user') {
                     <Type>CalDAV</Type>
                     <Server>
                         https://<?= $autodiscover_config['caldav']['server']; ?><?php if ($autodiscover_config['caldav']['port'] != 443) {
-                            echo ':' . $autodiscover_config['caldav']['port'];
-                        } ?>/SOGo/dav/<?= $email; ?>/
+            echo ':' . $autodiscover_config['caldav']['port'];
+        } ?>/SOGo/dav/<?= $email; ?>/
                     </Server>
                     <DomainRequired>off</DomainRequired>
                     <LoginName><?= $email; ?></LoginName>
@@ -180,8 +174,8 @@ if ($login_role === 'user') {
                     <Type>CardDAV</Type>
                     <Server>
                         https://<?= $autodiscover_config['carddav']['server']; ?><?php if ($autodiscover_config['caldav']['port'] != 443) {
-                            echo ':' . $autodiscover_config['carddav']['port'];
-                        } ?>/SOGo/dav/<?= $email; ?>/
+            echo ':' . $autodiscover_config['carddav']['port'];
+        } ?>/SOGo/dav/<?= $email; ?>/
                     </Server>
                     <DomainRequired>off</DomainRequired>
                     <LoginName><?= $email; ?></LoginName>
@@ -210,8 +204,7 @@ if ($login_role === 'user') {
             </Response>
             <?php
         }
-    }
-    ?>
+    } ?>
     </Autodiscover>
     <?php
 }

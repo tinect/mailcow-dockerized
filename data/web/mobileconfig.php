@@ -16,17 +16,21 @@ header('Content-Disposition: attachment; filename="' . $UI_TEXTS['main_name'] . 
 
 $email = $_SESSION['mailcow_cc_username'];
 $domain = explode('@', $_SESSION['mailcow_cc_username'])[1];
-$identifier = implode('.',
-        array_reverse(preg_split('/(@|\.)/', $email))) . '.appleprofile.' . preg_replace('/[^a-zA-Z0-9]+/', '',
-        $UI_TEXTS['main_name']);
+$identifier = implode(
+    '.',
+        array_reverse(preg_split('/(@|\.)/', $email))
+) . '.appleprofile.' . preg_replace(
+            '/[^a-zA-Z0-9]+/',
+            '',
+        $UI_TEXTS['main_name']
+        );
 
 try {
     $stmt = $pdo->prepare('SELECT `name` FROM `mailbox` WHERE `username`= :username');
     $stmt->execute(array(':username' => $email));
     $MailboxData = $stmt->fetch(PDO::FETCH_ASSOC);
     $displayname = htmlspecialchars(empty($MailboxData['name']) ? $email : $MailboxData['name'], ENT_NOQUOTES);
-}
-catch (PDOException $e) {
+} catch (PDOException $e) {
     $displayname = $email;
 }
 

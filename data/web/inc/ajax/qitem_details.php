@@ -89,8 +89,10 @@ if (!empty($_GET['id']) && ctype_alnum($_GET['id'])) {
                     $val->getFilename(),
                     $val->getContentType(),
                     filesize($tmpdir . $val->getFilename()),
-                    'https://www.virustotal.com/file/' . hash_file('SHA256',
-                        $tmpdir . $val->getFilename()) . '/analysis/'
+                    'https://www.virustotal.com/file/' . hash_file(
+                        'SHA256',
+                        $tmpdir . $val->getFilename()
+                    ) . '/analysis/'
                 );
             }
         }
@@ -116,4 +118,3 @@ if (!empty($_GET['id']) && ctype_alnum($_GET['id'])) {
         echo json_encode($data);
     }
 }
-?>

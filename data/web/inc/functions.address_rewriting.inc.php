@@ -48,8 +48,11 @@ function bcc($_action, $_data = null, $attr = null)
                 $domain = idn_to_ascii($local_dest, 0, INTL_IDNA_VARIANT_UTS46);
                 $local_dest_sane = '@' . idn_to_ascii($local_dest, 0, INTL_IDNA_VARIANT_UTS46);
             } elseif (filter_var($local_dest, FILTER_VALIDATE_EMAIL)) {
-                if (!hasMailboxObjectAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'],
-                    $local_dest)) {
+                if (!hasMailboxObjectAccess(
+                    $_SESSION['mailcow_cc_username'],
+                    $_SESSION['mailcow_cc_role'],
+                    $local_dest
+                )) {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_action, $_data, $_attr),

@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/prerequisites.inc.php';
 $AuthUsers = array('admin', 'domainadmin', 'user');
-if (!isset($_SESSION['mailcow_cc_role']) OR !in_array($_SESSION['mailcow_cc_role'], $AuthUsers)) {
+if (!isset($_SESSION['mailcow_cc_role']) or !in_array($_SESSION['mailcow_cc_role'], $AuthUsers)) {
     header('Location: /');
     exit();
 }
@@ -44,9 +44,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                 <textarea id="textarea_alias_goto" class="form-control"
                                                           autocapitalize="none" autocorrect="off" rows="10" id="goto"
                                                           name="goto"
-                                                          required><?= (!preg_match('/^(null|ham|spam)@localhost$/i',
-                                                        $result['goto'])) ? str_replace(',', ', ',
-                                                        htmlspecialchars($result['goto'])) : null; ?></textarea>
+                                                          required><?= (!preg_match(
+                                        '/^(null|ham|spam)@localhost$/i',
+                                                        $result['goto']
+                                    )) ? str_replace(
+                                                            ',',
+                                                            ', ',
+                                                        htmlspecialchars($result['goto'])
+                                                        ) : null; ?></textarea>
                                                 <div class="checkbox">
                                                     <label><input class="goto_checkbox" type="checkbox" value="1"
                                                                   name="goto_null" <?= ($result['goto'] == 'null@localhost') ? 'checked' : null; ?>> <?= $lang['add']['goto_null']; ?>
@@ -146,12 +151,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                         <option selected><?= htmlspecialchars($domain); ?></option>
                                                     <?php
                                                     endforeach;
-                                                    foreach ($result['unselected_domains'] as $domain):
+                                    foreach ($result['unselected_domains'] as $domain):
                                                         ?>
                                                         <option><?= htmlspecialchars($domain); ?></option>
                                                     <?php
-                                                    endforeach;
-                                                    ?>
+                                                    endforeach; ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -175,8 +179,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                 <div class="checkbox">
                                                     <label><input type="checkbox" value="1"
                                                                   name="active" <?php if (isset($result['active_int']) && $result['active_int'] == '1') {
-                                                            echo 'checked';
-                                                        }; ?>> <?= $lang['edit']['active']; ?></label>
+                                                        echo 'checked';
+                                                    }; ?>> <?= $lang['edit']['active']; ?></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -209,13 +213,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                     <select id="da_acl" name="da_acl" size="10" multiple>
                                                         <?php
                                                         $da_acls = acl('get', 'domainadmin', $domain_admin);
-                                                        foreach ($da_acls as $acl => $val):
+                                    foreach ($da_acls as $acl => $val):
                                                             ?>
                                                             <option
                                                                 value="<?= $acl; ?>" <?= ($val == 1) ? 'selected' : null; ?>><?= $lang['acl'][$acl]; ?></option>
                                                         <?php
-                                                        endforeach;
-                                                        ?>
+                                                        endforeach; ?>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
@@ -271,8 +274,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                 <div class="checkbox">
                                                     <label><input type="checkbox" value="1"
                                                                   name="active" <?php if (isset($result['active_int']) && $result['active_int'] == '1') {
-                                                            echo 'checked';
-                                                        }; ?>> <?= $lang['edit']['active']; ?></label>
+                                        echo 'checked';
+                                    }; ?>> <?= $lang['edit']['active']; ?></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -382,8 +385,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                                 (<?= $rlyhost['username']; ?>)
                                                             </option>
                                                             <?php
-                                                        }
-                                                        ?>
+                                                        } ?>
                                                         <option
                                                             value="" <?= ($result['relayhost'] == '0') ? 'selected' : null; ?>>
                                                             None
@@ -408,8 +410,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                 </div>
                                             </div>
                                             <?php
-                                        }
-                                        ?>
+                                        } ?>
                                         <div class="form-group">
                                             <div class="col-sm-offset-2 col-sm-10">
                                                 <div class="checkbox">
@@ -453,8 +454,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                             </div>
                                         </div>
                                         <?php
-                                    }
-                                    ?>
+                                    } ?>
                                     <hr>
                                     <form data-id="domratelimit" class="form-inline well" method="post">
                                         <div class="form-group">
@@ -643,8 +643,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                         ?>
                                                         <option <?= ($result['target_domain'] != $domain) ?: 'selected'; ?>><?= htmlspecialchars($domain); ?></option>
                                                     <?php
-                                                    endforeach;
-                                                    ?>
+                                                    endforeach; ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -718,8 +717,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                     <div class="alert alert-info" role="alert"><?= $lang['info']['no_action']; ?></div>
                                     <?php
                                 }
-                            } elseif (isset($_GET['mailbox']) && filter_var(html_entity_decode(rawurldecode($_GET['mailbox'])),
-                                    FILTER_VALIDATE_EMAIL) && !empty($_GET['mailbox'])) {
+                            } elseif (isset($_GET['mailbox']) && filter_var(
+                                html_entity_decode(rawurldecode($_GET['mailbox'])),
+                                    FILTER_VALIDATE_EMAIL
+                            ) && !empty($_GET['mailbox'])) {
                                 $mailbox = html_entity_decode(rawurldecode($_GET['mailbox']));
                                 $result = mailbox('get', 'mailbox_details', $mailbox);
                                 $rl = ratelimit('get', 'mailbox', $mailbox);
@@ -737,8 +738,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                    for="name"><?= $lang['edit']['full_name']; ?></label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="name"
-                                                       value="<?= htmlspecialchars($result['name'], ENT_QUOTES,
-                                                           'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                        $result['name'],
+                                        ENT_QUOTES,
+                                                           'UTF-8'
+                                    ); ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -762,69 +766,78 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                 <select data-live-search="true" data-width="100%" style="width:100%"
                                                         id="editSelectSenderACL" name="sender_acl" size="10" multiple>
                                                     <?php
-                                                    $sender_acl_handles = mailbox('get', 'sender_acl_handles',
-                                                        $mailbox);
+                                                    $sender_acl_handles = mailbox(
+                                                               'get',
+                                                               'sender_acl_handles',
+                                                        $mailbox
+                                                           );
 
-                                                    foreach ($sender_acl_handles['sender_acl_domains']['ro'] as $domain):
+                                    foreach ($sender_acl_handles['sender_acl_domains']['ro'] as $domain):
                                                         ?>
                                                         <option data-subtext="Admin"
                                                                 value="<?= htmlspecialchars($domain); ?>" disabled
-                                                                selected><?= htmlspecialchars(sprintf($lang['edit']['dont_check_sender_acl'],
-                                                                $domain)); ?></option>
+                                                                selected><?= htmlspecialchars(sprintf(
+                                                            $lang['edit']['dont_check_sender_acl'],
+                                                                $domain
+                                                        )); ?></option>
                                                     <?php
                                                     endforeach;
 
-                                                    foreach ($sender_acl_handles['sender_acl_addresses']['ro'] as $alias):
+                                    foreach ($sender_acl_handles['sender_acl_addresses']['ro'] as $alias):
                                                         ?>
                                                         <option data-subtext="Admin" disabled
                                                                 selected><?= htmlspecialchars($alias); ?></option>
                                                     <?php
                                                     endforeach;
 
-                                                    foreach ($sender_acl_handles['fixed_sender_aliases'] as $alias):
+                                    foreach ($sender_acl_handles['fixed_sender_aliases'] as $alias):
                                                         ?>
                                                         <option data-subtext="Alias" disabled
                                                                 selected><?= htmlspecialchars($alias); ?></option>
                                                     <?php
                                                     endforeach;
 
-                                                    foreach ($sender_acl_handles['sender_acl_domains']['rw'] as $domain):
+                                    foreach ($sender_acl_handles['sender_acl_domains']['rw'] as $domain):
                                                         ?>
                                                         <option value="<?= htmlspecialchars($domain); ?>"
-                                                                selected><?= htmlspecialchars(sprintf($lang['edit']['dont_check_sender_acl'],
-                                                                $domain)); ?></option>
+                                                                selected><?= htmlspecialchars(sprintf(
+                                                            $lang['edit']['dont_check_sender_acl'],
+                                                                $domain
+                                                        )); ?></option>
                                                     <?php
                                                     endforeach;
 
-                                                    foreach ($sender_acl_handles['sender_acl_domains']['selectable'] as $domain):
+                                    foreach ($sender_acl_handles['sender_acl_domains']['selectable'] as $domain):
                                                         ?>
                                                         <option
-                                                            value="<?= htmlspecialchars($domain); ?>"><?= htmlspecialchars(sprintf($lang['edit']['dont_check_sender_acl'],
-                                                                $domain)); ?></option>
+                                                            value="<?= htmlspecialchars($domain); ?>"><?= htmlspecialchars(sprintf(
+                                                            $lang['edit']['dont_check_sender_acl'],
+                                                                $domain
+                                                        )); ?></option>
                                                     <?php
                                                     endforeach;
 
-                                                    foreach ($sender_acl_handles['sender_acl_addresses']['rw'] as $address):
+                                    foreach ($sender_acl_handles['sender_acl_addresses']['rw'] as $address):
                                                         ?>
                                                         <option selected><?= htmlspecialchars($address); ?></option>
                                                     <?php
                                                     endforeach;
 
-                                                    foreach ($sender_acl_handles['sender_acl_addresses']['selectable'] as $address):
+                                    foreach ($sender_acl_handles['sender_acl_addresses']['selectable'] as $address):
                                                         ?>
                                                         <option><?= htmlspecialchars($address); ?></option>
                                                     <?php
                                                     endforeach;
 
-                                                    // Generated here, but used in extended_sender_acl
-                                                    if (!empty($sender_acl_handles['external_sender_aliases'])) {
-                                                        $ext_sender_acl = implode(', ',
-                                                            $sender_acl_handles['external_sender_aliases']);
-                                                    } else {
-                                                        $ext_sender_acl = '';
-                                                    }
-
-                                                    ?>
+                                    // Generated here, but used in extended_sender_acl
+                                    if (!empty($sender_acl_handles['external_sender_aliases'])) {
+                                        $ext_sender_acl = implode(
+                                                            ', ',
+                                                            $sender_acl_handles['external_sender_aliases']
+                                                        );
+                                    } else {
+                                        $ext_sender_acl = '';
+                                    } ?>
                                                 </select>
                                                 <div style="display:none"
                                                      id="sender_acl_disabled"><?= $lang['edit']['sender_acl_disabled']; ?></div>
@@ -992,13 +1005,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                     <select id="user_acl" name="user_acl" size="10" multiple>
                                                         <?php
                                                         $user_acls = acl('get', 'user', $mailbox);
-                                                        foreach ($user_acls as $acl => $val):
+                                    foreach ($user_acls as $acl => $val):
                                                             ?>
                                                             <option
                                                                 value="<?= $acl; ?>" <?= ($val == 1) ? 'selected' : null; ?>><?= $lang['acl'][$acl]; ?></option>
                                                         <?php
-                                                        endforeach;
-                                                        ?>
+                                                        endforeach; ?>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
@@ -1026,8 +1038,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                    for="hostname"><?= $lang['add']['hostname']; ?></label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="hostname"
-                                                       value="<?= htmlspecialchars($result['hostname'], ENT_QUOTES,
-                                                           'UTF-8'); ?>" required>
+                                                       value="<?= htmlspecialchars(
+                                        $result['hostname'],
+                                        ENT_QUOTES,
+                                                           'UTF-8'
+                                    ); ?>" required>
                                                 <p class="help-block"><?= $lang['add']['relayhost_wrapped_tls_info']; ?></p>
                                             </div>
                                         </div>
@@ -1036,8 +1051,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                    for="username"><?= $lang['add']['username']; ?></label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="username"
-                                                       value="<?= htmlspecialchars($result['username'], ENT_QUOTES,
-                                                           'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                                               $result['username'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1046,8 +1064,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                             <div class="col-sm-10">
                                                 <input type="password" data-hibp="true" class="form-control"
                                                        name="password"
-                                                       value="<?= htmlspecialchars($result['password'], ENT_QUOTES,
-                                                           'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                                               $result['password'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1088,8 +1109,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                    for="destination"><?= $lang['add']['destination']; ?></label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="destination"
-                                                       value="<?= htmlspecialchars($result['destination'], ENT_QUOTES,
-                                                           'UTF-8'); ?>" required>
+                                                       value="<?= htmlspecialchars(
+                                        $result['destination'],
+                                        ENT_QUOTES,
+                                                           'UTF-8'
+                                    ); ?>" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1097,8 +1121,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                    for="nexthop"><?= $lang['edit']['nexthop']; ?></label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="nexthop"
-                                                       value="<?= htmlspecialchars($result['nexthop'], ENT_QUOTES,
-                                                           'UTF-8'); ?>" required>
+                                                       value="<?= htmlspecialchars(
+                                                               $result['nexthop'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1106,8 +1133,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                    for="username"><?= $lang['add']['username']; ?></label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="username"
-                                                       value="<?= htmlspecialchars($result['username'], ENT_QUOTES,
-                                                           'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                                               $result['username'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1116,8 +1146,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                             <div class="col-sm-10">
                                                 <input type="password" data-hibp="true" class="form-control"
                                                        name="password"
-                                                       value="<?= htmlspecialchars($result['password'], ENT_QUOTES,
-                                                           'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                                               $result['password'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1145,8 +1178,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                     <div class="alert alert-info" role="alert"><?= $lang['info']['no_action']; ?></div>
                                     <?php
                                 }
-                            } elseif (isset($_GET['resource']) && filter_var(html_entity_decode(rawurldecode($_GET['resource'])),
-                                    FILTER_VALIDATE_EMAIL) && !empty($_GET['resource'])) {
+                            } elseif (isset($_GET['resource']) && filter_var(
+                                html_entity_decode(rawurldecode($_GET['resource'])),
+                                    FILTER_VALIDATE_EMAIL
+                            ) && !empty($_GET['resource'])) {
                                 $resource = html_entity_decode(rawurldecode($_GET['resource']));
                                 $result = mailbox('get', 'resource_details', $resource);
                                 if (!empty($result)) {
@@ -1159,8 +1194,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                    for="description"><?= $lang['add']['description']; ?></label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="description"
-                                                       value="<?= htmlspecialchars($result['description'], ENT_QUOTES,
-                                                           'UTF-8'); ?>" required>
+                                                       value="<?= htmlspecialchars(
+                                        $result['description'],
+                                        ENT_QUOTES,
+                                                           'UTF-8'
+                                    ); ?>" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1265,8 +1303,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                 <div class="checkbox">
                                                     <label><input type="checkbox" value="1"
                                                                   name="active" <?php if (isset($result['active_int']) && $result['active_int'] == '1') {
-                                                            echo 'checked';
-                                                        }; ?>> <?= $lang['edit']['active']; ?></label>
+                                        echo 'checked';
+                                    }; ?>> <?= $lang['edit']['active']; ?></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -1326,8 +1364,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                 <div class="checkbox">
                                                     <label><input type="checkbox" value="1"
                                                                   name="active" <?php if (isset($result['active_int']) && $result['active_int'] == '1') {
-                                                            echo 'checked';
-                                                        }; ?>> <?= $lang['edit']['active']; ?></label>
+                                        echo 'checked';
+                                    }; ?>> <?= $lang['edit']['active']; ?></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -1421,8 +1459,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                 <div class="checkbox">
                                                     <label><input type="checkbox" value="1"
                                                                   name="active" <?php if (isset($result['active_int']) && $result['active_int'] == '1') {
-                                                            echo 'checked';
-                                                        }; ?>> <?= $lang['edit']['active']; ?></label>
+                                        echo 'checked';
+                                    }; ?>> <?= $lang['edit']['active']; ?></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -1464,8 +1502,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                    for="host1"><?= $lang['edit']['hostname']; ?></label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="host1" id="host1"
-                                                       value="<?= htmlspecialchars($result['host1'], ENT_QUOTES,
-                                                           'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                        $result['host1'],
+                                        ENT_QUOTES,
+                                                           'UTF-8'
+                                    ); ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1473,8 +1514,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                             <div class="col-sm-10">
                                                 <input type="number" class="form-control" name="port1" id="port1"
                                                        min="1" max="65535"
-                                                       value="<?= htmlspecialchars($result['port1'], ENT_QUOTES,
-                                                           'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                                               $result['port1'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1482,8 +1526,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                    for="user1"><?= $lang['edit']['username']; ?></label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="user1" id="user1"
-                                                       value="<?= htmlspecialchars($result['user1'], ENT_QUOTES,
-                                                           'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                                               $result['user1'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1492,8 +1539,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                             <div class="col-sm-10">
                                                 <input type="password" class="form-control" name="password1"
                                                        id="password1"
-                                                       value="<?= htmlspecialchars($result['password1'], ENT_QUOTES,
-                                                           'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                                               $result['password1'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1517,8 +1567,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                             <div class="col-sm-10">
                                                 <input type="number" class="form-control" name="mins_interval" min="1"
                                                        max="3600"
-                                                       value="<?= htmlspecialchars($result['mins_interval'], ENT_QUOTES,
-                                                           'UTF-8'); ?>" required>
+                                                       value="<?= htmlspecialchars(
+                                                               $result['mins_interval'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>" required>
                                                 <small class="help-block">1-3600</small>
                                             </div>
                                         </div>
@@ -1528,8 +1581,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="subfolder2"
                                                        id="subfolder2"
-                                                       value="<?= htmlspecialchars($result['subfolder2'], ENT_QUOTES,
-                                                           'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                                               $result['subfolder2'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1538,8 +1594,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                             <div class="col-sm-10">
                                                 <input type="number" class="form-control" name="maxage" id="maxage"
                                                        min="0" max="32000"
-                                                       value="<?= htmlspecialchars($result['maxage'], ENT_QUOTES,
-                                                           'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                                               $result['maxage'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>">
                                                 <small class="help-block">0-32000</small>
                                             </div>
                                         </div>
@@ -1549,8 +1608,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                             <div class="col-sm-10">
                                                 <input type="number" class="form-control" name="maxbytespersecond"
                                                        id="maxbytespersecond" min="0" max="125000000"
-                                                       value="<?= htmlspecialchars($result['maxbytespersecond'],
-                                                           ENT_QUOTES, 'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                                               $result['maxbytespersecond'],
+                                                           ENT_QUOTES,
+                                                               'UTF-8'
+                                                           ); ?>">
                                                 <small class="help-block">0-125000000</small>
                                             </div>
                                         </div>
@@ -1560,8 +1622,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                             <div class="col-sm-10">
                                                 <input type="number" class="form-control" name="timeout1" id="timeout1"
                                                        min="1" max="32000"
-                                                       value="<?= htmlspecialchars($result['timeout1'], ENT_QUOTES,
-                                                           'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                                               $result['timeout1'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>">
                                                 <small class="help-block">1-32000</small>
                                             </div>
                                         </div>
@@ -1571,8 +1636,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                             <div class="col-sm-10">
                                                 <input type="number" class="form-control" name="timeout2" id="timeout2"
                                                        min="1" max="32000"
-                                                       value="<?= htmlspecialchars($result['timeout2'], ENT_QUOTES,
-                                                           'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                                               $result['timeout2'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>">
                                                 <small class="help-block">1-32000</small>
                                             </div>
                                         </div>
@@ -1581,8 +1649,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                                    for="exclude"><?= $lang['edit']['exclude']; ?></label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="exclude" id="exclude"
-                                                       value="<?= htmlspecialchars($result['exclude'], ENT_QUOTES,
-                                                           'UTF-8'); ?>">
+                                                       value="<?= htmlspecialchars(
+                                                               $result['exclude'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1591,8 +1662,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="custom_params"
                                                        id="custom_params"
-                                                       value="<?= htmlspecialchars($result['custom_params'], ENT_QUOTES,
-                                                           'UTF-8'); ?>"
+                                                       value="<?= htmlspecialchars(
+                                                               $result['custom_params'],
+                                                               ENT_QUOTES,
+                                                           'UTF-8'
+                                                           ); ?>"
                                                        placeholder="--dry --some-param=xy --other-param=yx">
                                                 <small
                                                     class="help-block"><?= $lang['add']['custom_params_hint']; ?></small>
@@ -1692,8 +1766,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="script_desc"
                                                        id="script_desc"
-                                                       value="<?= htmlspecialchars($result['script_desc'], ENT_QUOTES,
-                                                           'UTF-8'); ?>" required maxlength="255">
+                                                       value="<?= htmlspecialchars(
+                                        $result['script_desc'],
+                                        ENT_QUOTES,
+                                                           'UTF-8'
+                                    ); ?>" required maxlength="255">
                                             </div>
                                         </div>
                                         <div class="form-group">

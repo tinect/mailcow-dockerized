@@ -50,17 +50,20 @@ function dkim($_action, $_data = null)
                 );
                 if ($keypair_ressource = openssl_pkey_new($config)) {
                     $key_details = openssl_pkey_get_details($keypair_ressource);
-                    $pubKey = implode(array_slice(
+                    $pubKey = implode(
+                        array_slice(
                             array_filter(
                                 explode(PHP_EOL, $key_details['key'])
-                            ), 1, -1)
+                            ),
+                        1,
+                        -1
+                    )
                     );
                     // Save public key and selector to redis
                     try {
                         $redis->hSet('DKIM_PUB_KEYS', $domain, $pubKey);
                         $redis->hSet('DKIM_SELECTORS', $domain, $dkim_selector);
-                    }
-                    catch (RedisException $e) {
+                    } catch (RedisException $e) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'log' => array(__FUNCTION__, $_action, $_data),
@@ -73,8 +76,7 @@ function dkim($_action, $_data = null)
                     if (isset($privKey) && !empty($privKey)) {
                         try {
                             $redis->hSet('DKIM_PRIV_KEYS', $dkim_selector . '.' . $domain, trim($privKey));
-                        }
-                        catch (RedisException $e) {
+                        } catch (RedisException $e) {
                             $_SESSION['return'][] = array(
                                 'type' => 'danger',
                                 'log' => array(__FUNCTION__, $_action, $_data),
@@ -123,10 +125,12 @@ function dkim($_action, $_data = null)
                 try {
                     $redis->hSet('DKIM_PUB_KEYS', $to_domain, $from_domain_dkim['pubkey']);
                     $redis->hSet('DKIM_SELECTORS', $to_domain, $from_domain_dkim['dkim_selector']);
-                    $redis->hSet('DKIM_PRIV_KEYS', $from_domain_dkim['dkim_selector'] . '.' . $to_domain,
-                        base64_decode(trim($from_domain_dkim['privkey'])));
-                }
-                catch (RedisException $e) {
+                    $redis->hSet(
+                        'DKIM_PRIV_KEYS',
+                        $from_domain_dkim['dkim_selector'] . '.' . $to_domain,
+                        base64_decode(trim($from_domain_dkim['privkey']))
+                    );
+                } catch (RedisException $e) {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_action, $_data),
@@ -198,8 +202,7 @@ function dkim($_action, $_data = null)
                 $redis->hSet('DKIM_PUB_KEYS', $domain, $pem_public_key);
                 $redis->hSet('DKIM_SELECTORS', $domain, $dkim_selector);
                 $redis->hSet('DKIM_PRIV_KEYS', $dkim_selector . '.' . $domain, $private_key_normalized);
-            }
-            catch (RedisException $e) {
+            } catch (RedisException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_action, $_data),
@@ -211,8 +214,7 @@ function dkim($_action, $_data = null)
             unset($private_key);
             unset($private_key_input);
             try {
-            }
-            catch (RedisException $e) {
+            } catch (RedisException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_action, $_data),
@@ -228,8 +230,11 @@ function dkim($_action, $_data = null)
             return true;
             break;
         case 'details':
-            if (!hasDomainAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'],
-                    $_data) && $_SESSION['mailcow_cc_role'] != 'admin') {
+            if (!hasDomainAccess(
+                $_SESSION['mailcow_cc_username'],
+                $_SESSION['mailcow_cc_role'],
+                    $_data
+            ) && $_SESSION['mailcow_cc_role'] != 'admin') {
                 return false;
             }
             $dkimdata = array();
@@ -246,8 +251,10 @@ function dkim($_action, $_data = null)
                 }
                 $dkimdata['dkim_txt'] = 'v=DKIM1;k=rsa;t=s;s=email;p=' . $redis_dkim_key_data;
                 $dkimdata['dkim_selector'] = $redis->hGet('DKIM_SELECTORS', $_data);
-                $dkimdata['privkey'] = base64_encode($redis->hGet('DKIM_PRIV_KEYS',
-                    $dkimdata['dkim_selector'] . '.' . $_data));
+                $dkimdata['privkey'] = base64_encode($redis->hGet(
+                    'DKIM_PRIV_KEYS',
+                    $dkimdata['dkim_selector'] . '.' . $_data
+                ));
             }
             return $dkimdata;
             break;
@@ -290,8 +297,7 @@ function dkim($_action, $_data = null)
                     $redis->hDel('DKIM_PUB_KEYS', $domain);
                     $redis->hDel('DKIM_PRIV_KEYS', $selector . '.' . $domain);
                     $redis->hDel('DKIM_SELECTORS', $domain);
-                }
-                catch (RedisException $e) {
+                } catch (RedisException $e) {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_action, $_data),

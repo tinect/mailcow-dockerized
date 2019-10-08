@@ -12,4 +12,3 @@ if (isset($docker_return['type']['danger'])) {
 } else {
     echo $docker_return;
 }
-?>

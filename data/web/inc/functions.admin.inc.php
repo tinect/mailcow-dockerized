@@ -20,7 +20,7 @@ function admin($_action, $_data = null)
             $password = $_data['password'];
             $password2 = $_data['password2'];
             $active = intval($_data['active']);
-            if (!ctype_alnum(str_replace(array('_', '.', '-'), '', $username)) || empty ($username)) {
+            if (!ctype_alnum(str_replace(array('_', '.', '-'), '', $username)) || empty($username)) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_action, $_data_log),

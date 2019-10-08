@@ -49,8 +49,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/"><img alt="mailcow-logo" src="<?= ($main_logo = customize('get',
-                    'main_logo')) ? $main_logo : '/img/cow_mailcow.svg'; ?>"></a>
+            <a class="navbar-brand" href="/"><img alt="mailcow-logo" src="<?= ($main_logo = customize(
+        'get',
+                    'main_logo'
+    )) ? $main_logo : '/img/cow_mailcow.svg'; ?>"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -67,13 +69,14 @@
                             foreach ($AVAILABLE_LANGUAGES as $language) {
                                 ?>
                                 <li<?= ($_SESSION['mailcow_locale'] == $language) ? ' class="active"' : ''; ?>><a
-                                        href="?<?= http_build_query(array_merge($_GET,
-                                            array('lang' => $language))); ?>"><span class="lang-xs lang-lbl-full"
+                                        href="?<?= http_build_query(array_merge(
+                                    $_GET,
+                                            array('lang' => $language)
+                                )); ?>"><span class="lang-xs lang-lbl-full"
                                                                                     lang="<?= $language; ?>"></span></a>
                                 </li>
                                 <?php
-                            }
-                            ?>
+                            } ?>
                         </ul>
                     </li>
                     <?php
@@ -88,30 +91,37 @@
                             if (isset($_SESSION['mailcow_cc_role'])) {
                                 if ($_SESSION['mailcow_cc_role'] == 'admin') {
                                     ?>
-                                    <li<?= (preg_match('/admin/i',
-                                        $_SERVER['REQUEST_URI'])) ? ' class="active"' : ''; ?>><a
+                                    <li<?= (preg_match(
+                                        '/admin/i',
+                                        $_SERVER['REQUEST_URI']
+                                    )) ? ' class="active"' : ''; ?>><a
                                             href="/admin"><?= $lang['header']['administration']; ?></a></li>
-                                    <li<?= (preg_match('/debug/i',
-                                        $_SERVER['REQUEST_URI'])) ? ' class="active"' : ''; ?>><a
+                                    <li<?= (preg_match(
+                                            '/debug/i',
+                                        $_SERVER['REQUEST_URI']
+                                        )) ? ' class="active"' : ''; ?>><a
                                             href="/debug"><?= $lang['header']['debug']; ?></a></li>
                                     <?php
                                 }
                                 if ($_SESSION['mailcow_cc_role'] == 'admin' || $_SESSION['mailcow_cc_role'] == 'domainadmin') {
                                     ?>
-                                    <li<?= (preg_match('/mailbox/i',
-                                        $_SERVER['REQUEST_URI'])) ? ' class="active"' : ''; ?>><a
+                                    <li<?= (preg_match(
+                                        '/mailbox/i',
+                                        $_SERVER['REQUEST_URI']
+                                    )) ? ' class="active"' : ''; ?>><a
                                             href="/mailbox"><?= $lang['header']['mailboxes']; ?></a></li>
                                     <?php
                                 }
                                 if ($_SESSION['mailcow_cc_role'] != 'admin') {
                                     ?>
-                                    <li<?= (preg_match('/user/i',
-                                        $_SERVER['REQUEST_URI'])) ? ' class="active"' : ''; ?>><a
+                                    <li<?= (preg_match(
+                                        '/user/i',
+                                        $_SERVER['REQUEST_URI']
+                                    )) ? ' class="active"' : ''; ?>><a
                                             href="/user"><?= $lang['header']['user_settings']; ?></a></li>
                                     <?php
                                 }
-                            }
-                            ?>
+                            } ?>
                         </ul>
                     </li>
                     <?php
@@ -130,8 +140,7 @@
                                     class="glyphicon glyphicon-refresh"></span> <?= $lang['header']['restart_sogo']; ?>
                             </a></li>
                         <?php
-                    }
-                    ?>
+                    } ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                            aria-expanded="false"><span
@@ -146,18 +155,17 @@
                                 </li>
                             <?php
                             endforeach;
-                            $app_links = customize('get', 'app_links');
-                            if ($app_links) {
-                                foreach ($app_links as $row) {
-                                    foreach ($row as $key => $val):
+                    $app_links = customize('get', 'app_links');
+                    if ($app_links) {
+                        foreach ($app_links as $row) {
+                            foreach ($row as $key => $val):
                                         ?>
                                         <li><a href="<?= htmlspecialchars($val); ?>"><?= htmlspecialchars($key); ?></a>
                                         </li>
                                     <?php
                                     endforeach;
-                                }
-                            }
-                            ?>
+                        }
+                    } ?>
                         </ul>
                     </li>
                     <?php

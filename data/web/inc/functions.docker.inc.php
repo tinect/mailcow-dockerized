@@ -139,8 +139,6 @@ function docker($action, $service_name = null, $attr1 = null, $attr2 = null, $ex
                     }
 
                     return $response;
-
-
                 }
             }
             break;

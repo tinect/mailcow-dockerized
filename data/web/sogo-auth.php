@@ -29,7 +29,6 @@ elseif (isset($_SERVER['PHP_AUTH_USER'])) {
     header('HTTP/1.0 401 Unauthorized');
     echo 'Invalid login';
     exit;
-
 } // check permissions and redirect for direct GET ?login=xy requests
 elseif (isset($_GET['login'])) {
     // load prerequisites only when required

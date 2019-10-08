@@ -23,8 +23,11 @@ function acl($_action, $_scope = null, $_data = null)
                             $acl_post[$acl_val] = 1;
                         }
                         // Users cannot change their own ACL
-                        if (!hasMailboxObjectAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'],
-                                $username)
+                        if (!hasMailboxObjectAccess(
+                            $_SESSION['mailcow_cc_username'],
+                            $_SESSION['mailcow_cc_role'],
+                                $username
+                        )
                             || ($_SESSION['mailcow_cc_role'] != 'admin' && $_SESSION['mailcow_cc_role'] != 'domainadmin')) {
                             $_SESSION['return'][] = array(
                                 'type' => 'danger',
@@ -128,8 +131,11 @@ function acl($_action, $_scope = null, $_data = null)
         case 'get':
             switch ($_scope) {
                 case 'user':
-                    if (!hasMailboxObjectAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'],
-                        $_data)) {
+                    if (!hasMailboxObjectAccess(
+                        $_SESSION['mailcow_cc_username'],
+                        $_SESSION['mailcow_cc_role'],
+                        $_data
+                    )) {
                         return false;
                     }
                     $stmt = $pdo->prepare('SELECT * FROM `user_acl` WHERE `username` = :username');

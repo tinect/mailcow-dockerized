@@ -49,5 +49,3 @@ if (preg_match('/^[a-z\-]{0,}-mailcow/', $_GET['service'])) {
         print_r(preg_split('/\n/', docker('logs', $_GET['service'], $lines)));
     }
 }
-
-?>

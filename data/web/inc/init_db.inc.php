@@ -1036,7 +1036,6 @@ function init_db_schema()
             }
             // Reset table attributes
             $pdo->query('ALTER TABLE `' . $table . '` ' . $properties['attr'] . ';');
-
         }
 
         // Recreate SQL views
@@ -1118,8 +1117,7 @@ DELIMITER ;';
                 'msg' => 'db_init_complete'
             );
         }
-    }
-    catch (PDOException $e) {
+    } catch (PDOException $e) {
         if (php_sapi_name() == 'cli') {
             echo 'DB initialization failed: ' . print_r($e, true) . PHP_EOL;
         } else {
@@ -1158,8 +1156,7 @@ if (php_sapi_name() == 'cli') {
         SELECT `c_uid`, `domain`, `c_name`, `c_password`, `c_cn`, `mail`, `aliases`, `ad_aliases`, `kind`, `multiple_bookings` from sogo_view');
             $stmt = $pdo->query("DELETE FROM _sogo_static_view WHERE `c_uid` NOT IN (SELECT `username` FROM `mailbox` WHERE `active` = '1');");
             echo 'Fixed _sogo_static_view' . PHP_EOL;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             // Dunno
         }
     }
@@ -1168,8 +1165,7 @@ if (php_sapi_name() == 'cli') {
         $m->addServer('memcached', 11211);
         $m->flush();
         echo 'Cleaned up memcached' . PHP_EOL;
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         // Dunno
     }
     init_db_schema();

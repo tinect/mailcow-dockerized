@@ -8,7 +8,6 @@ define('state_nomatch', '?');
 define('state_optional', ' <sup>2</sup>');
 
 if (isset($_SESSION['mailcow_cc_role']) && ($_SESSION['mailcow_cc_role'] == 'admin' || $_SESSION['mailcow_cc_role'] == 'domainadmin')) {
-
     $domains = mailbox('get', 'domains');
     $alias_domains = array();
     foreach ($domains as $dn) {
@@ -74,7 +73,7 @@ if (isset($_SESSION['mailcow_cc_role']) && ($_SESSION['mailcow_cc_role'] == 'adm
         );
     }
 
-// Init records array
+    // Init records array
     $spf_link = '<a href="https://en.wikipedia.org/wiki/Sender_Policy_Framework" target="_blank">SPF Record Syntax</a><br />';
     $dmarc_link = '<a href="https://www.kitterman.com/dmarc/assistant.html" target="_blank">DMARC Assistant</a>';
 
@@ -289,8 +288,7 @@ if (isset($_SESSION['mailcow_cc_role']) && ($_SESSION['mailcow_cc_role'] == 'adm
         'SRV' => 'data',
         'TLSA' => 'data',
         'TXT' => 'txt',
-    );
-    ?>
+    ); ?>
     <div class="table-responsive" id="dnstable">
         <table class="table table-striped">
             <tr>
@@ -383,8 +381,11 @@ if (isset($_SESSION['mailcow_cc_role']) && ($_SESSION['mailcow_cc_role'] == 'adm
                     } elseif ($current['type'] == 'TXT' &&
                         stripos($current['txt'], 'v=dkim') === 0 &&
                         stripos($record[2], 'v=dkim') === 0) {
-                        preg_match('/v=DKIM1;.*k=rsa;.*p=(.*)/i', $current[$data_field[$current['type']]],
-                            $dkim_matches_current);
+                        preg_match(
+                            '/v=DKIM1;.*k=rsa;.*p=(.*)/i',
+                            $current[$data_field[$current['type']]],
+                            $dkim_matches_current
+                        );
                         preg_match('/v=DKIM1;.*k=rsa;.*p=(.*)/i', $record[2], $dkim_matches_good);
                         if ($dkim_matches_current[1] == $dkim_matches_good[1]) {
                             $state = state_good;
@@ -418,8 +419,7 @@ if (isset($_SESSION['mailcow_cc_role']) && ($_SESSION['mailcow_cc_role'] == 'adm
     <td class="dns-found">%s</td>
     <td class="dns-recommended">%s</td>
   </tr>', $record[0], $record[1], $record[2], $state);
-            }
-            ?>
+            } ?>
         </table>
     </div>
     <p class="help-block">
@@ -428,7 +428,7 @@ if (isset($_SESSION['mailcow_cc_role']) && ($_SESSION['mailcow_cc_role'] == 'adm
     </p>
     <?php
 } else {
-    echo 'Session invalid';
-    exit();
-}
+                echo 'Session invalid';
+                exit();
+            }
 ?>

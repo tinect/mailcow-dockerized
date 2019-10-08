@@ -42,8 +42,7 @@ function fwdhost($_action, $_data = null)
                     } elseif ($redis->hGet('KEEP_SPAM', $host)) {
                         $redis->hDel('KEEP_SPAM', $host);
                     }
-                }
-                catch (RedisException $e) {
+                } catch (RedisException $e) {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -87,8 +86,7 @@ function fwdhost($_action, $_data = null)
                     } else {
                         $redis->hDel('KEEP_SPAM', $fwdhost);
                     }
-                }
-                catch (RedisException $e) {
+                } catch (RedisException $e) {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -109,8 +107,7 @@ function fwdhost($_action, $_data = null)
                 try {
                     $redis->hDel('WHITELISTED_FWD_HOST', $host);
                     $redis->hDel('KEEP_SPAM', $host);
-                }
-                catch (RedisException $e) {
+                } catch (RedisException $e) {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -142,8 +139,7 @@ function fwdhost($_action, $_data = null)
                         );
                     }
                 }
-            }
-            catch (RedisException $e) {
+            } catch (RedisException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -164,8 +160,7 @@ function fwdhost($_action, $_data = null)
                     $fwdhostdetails['source'] = $source;
                     $fwdhostdetails['keep_spam'] = ($redis->hGet('KEEP_SPAM', $_data)) ? 'yes' : 'no';
                 }
-            }
-            catch (RedisException $e) {
+            } catch (RedisException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_action, $_data_log),

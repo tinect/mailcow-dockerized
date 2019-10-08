@@ -112,8 +112,7 @@ function quarantine($_action, $_data = null)
             }
             try {
                 $release_format = $redis->Get('Q_RELEASE_FORMAT');
-            }
-            catch (RedisException $e) {
+            } catch (RedisException $e) {
                 logger(array(
                     'return' => array(
                         array(
@@ -167,8 +166,7 @@ function quarantine($_action, $_data = null)
                     $mail->Body = sprintf($lang['quarantine']['release_body']);
                     $mail->send();
                     unlink($msg_tmpf);
-                }
-                catch (phpmailerException $e) {
+                } catch (phpmailerException $e) {
                     unlink($msg_tmpf);
                     logger(array(
                         'return' => array(
@@ -269,8 +267,11 @@ function quarantine($_action, $_data = null)
                 $stmt = $pdo->prepare('SELECT `rcpt` FROM `quarantine` WHERE `id` = :id');
                 $stmt->execute(array(':id' => $id));
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                if (!hasMailboxObjectAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'],
-                        $row['rcpt']) && $_SESSION['mailcow_cc_role'] != 'admin') {
+                if (!hasMailboxObjectAccess(
+                    $_SESSION['mailcow_cc_username'],
+                    $_SESSION['mailcow_cc_role'],
+                        $row['rcpt']
+                ) && $_SESSION['mailcow_cc_role'] != 'admin') {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -336,8 +337,7 @@ function quarantine($_action, $_data = null)
                     $redis->Set('Q_SENDER', $sender);
                     $redis->Set('Q_SUBJ', $subject);
                     $redis->Set('Q_HTML', $html);
-                }
-                catch (RedisException $e) {
+                } catch (RedisException $e) {
                     $_SESSION['return'][] = array(
                         'type' => 'danger',
                         'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -370,8 +370,11 @@ function quarantine($_action, $_data = null)
                     $stmt = $pdo->prepare('SELECT `msg`, `qid`, `sender`, `rcpt` FROM `quarantine` WHERE `id` = :id');
                     $stmt->execute(array(':id' => $id));
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                    if (!hasMailboxObjectAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'],
-                        $row['rcpt'])) {
+                    if (!hasMailboxObjectAccess(
+                        $_SESSION['mailcow_cc_username'],
+                        $_SESSION['mailcow_cc_role'],
+                        $row['rcpt']
+                    )) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'msg' => 'access_denied'
@@ -394,8 +397,7 @@ function quarantine($_action, $_data = null)
                     }
                     try {
                         $release_format = $redis->Get('Q_RELEASE_FORMAT');
-                    }
-                    catch (RedisException $e) {
+                    } catch (RedisException $e) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -441,8 +443,7 @@ function quarantine($_action, $_data = null)
                             $mail->Body = sprintf($lang['quarantine']['release_body']);
                             $mail->send();
                             unlink($msg_tmpf);
-                        }
-                        catch (phpmailerException $e) {
+                        } catch (phpmailerException $e) {
                             unlink($msg_tmpf);
                             $_SESSION['return'][] = array(
                                 'type' => 'warning',
@@ -494,8 +495,7 @@ function quarantine($_action, $_data = null)
                         $stmt->execute(array(
                             ':id' => $id
                         ));
-                    }
-                    catch (PDOException $e) {
+                    } catch (PDOException $e) {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -528,8 +528,11 @@ function quarantine($_action, $_data = null)
                     $stmt = $pdo->prepare('SELECT `msg`, `rcpt` FROM `quarantine` WHERE `id` = :id');
                     $stmt->execute(array(':id' => $id));
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                    if (!hasMailboxObjectAccess($_SESSION['mailcow_cc_username'], $_SESSION['mailcow_cc_role'],
-                            $row['rcpt']) && $_SESSION['mailcow_cc_role'] != 'admin') {
+                    if (!hasMailboxObjectAccess(
+                        $_SESSION['mailcow_cc_username'],
+                        $_SESSION['mailcow_cc_role'],
+                            $row['rcpt']
+                    ) && $_SESSION['mailcow_cc_role'] != 'admin') {
                         $_SESSION['return'][] = array(
                             'type' => 'danger',
                             'msg' => 'access_denied'
@@ -582,8 +585,7 @@ function quarantine($_action, $_data = null)
                                 $stmt->execute(array(
                                     ':id' => $id
                                 ));
-                            }
-                            catch (PDOException $e) {
+                            } catch (PDOException $e) {
                                 $_SESSION['return'][] = array(
                                     'type' => 'danger',
                                     'log' => array(__FUNCTION__, $_action, $_data_log),
@@ -677,8 +679,7 @@ function quarantine($_action, $_data = null)
                 if (empty($settings['html_tmpl'])) {
                     $settings['html_tmpl'] = htmlspecialchars(file_get_contents('/tpls/quarantine.tpl'));
                 }
-            }
-            catch (RedisException $e) {
+            } catch (RedisException $e) {
                 $_SESSION['return'][] = array(
                     'type' => 'danger',
                     'log' => array(__FUNCTION__, $_action, $_data_log),

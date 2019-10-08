@@ -8,15 +8,13 @@ function get_spf_allowed_hosts($check_domain)
     $records = dns_get_record($check_domain, DNS_TXT);
     foreach ($records as $record) {
         $txt = explode(' ', $record['entries'][0]);
-        if (array_shift($txt) != 'v=spf1') // only handle SPF records
-        {
+        if (array_shift($txt) != 'v=spf1') { // only handle SPF records
             continue;
         }
 
         foreach ($txt as $mech) {
             $qual = substr($mech, 0, 1);
-            if ($qual == '-' || $qual == '~') // only handle pass or neutral records
-            {
+            if ($qual == '-' || $qual == '~') { // only handle pass or neutral records
                 continue(2);
             }
 
@@ -24,23 +22,19 @@ function get_spf_allowed_hosts($check_domain)
                 $mech = substr($mech, 1);
             } // remove the qualifier
 
-            if (strpos($mech, '=') !== false) // handle a modifier
-            {
+            if (strpos($mech, '=') !== false) { // handle a modifier
                 $mod = explode('=', $mech);
-                if ($mod[0] == 'redirect') // handle a redirect
-                {
+                if ($mod[0] == 'redirect') { // handle a redirect
                     $hosts = get_spf_allowed_hosts($mod[1]);
                     return $hosts;
                 }
             } else {
                 unset($cidr);
-                if (strpos($mech, ':') !== false) // handle a domain specification
-                {
+                if (strpos($mech, ':') !== false) { // handle a domain specification
                     $split = explode(':', $mech);
                     $mech = array_shift($split);
                     $domain = implode(':', $split);
-                    if (strpos($domain, '/') !== false) // remove CIDR specification
-                    {
+                    if (strpos($domain, '/') !== false) { // remove CIDR specification
                         $split = explode('/', $domain);
                         $domain = $split[0];
                         $cidr = $split[1];
@@ -48,22 +42,17 @@ function get_spf_allowed_hosts($check_domain)
                 }
 
                 $new_hosts = array();
-                if ($mech == 'include' && $check_domain != $domain) // handle an inclusion
-                {
+                if ($mech == 'include' && $check_domain != $domain) { // handle an inclusion
                     $new_hosts = get_spf_allowed_hosts($domain);
-                } elseif ($mech == 'a') // handle a mechanism
-                {
+                } elseif ($mech == 'a') { // handle a mechanism
                     $new_hosts = get_a_hosts($domain);
-                } elseif ($mech == 'mx') // handle mx mechanism
-                {
+                } elseif ($mech == 'mx') { // handle mx mechanism
                     $new_hosts = get_mx_hosts($domain);
-                } elseif ($mech == 'ip4' || $mech == 'ip6') // handle ip mechanism
-                {
+                } elseif ($mech == 'ip4' || $mech == 'ip6') { // handle ip mechanism
                     $new_hosts = array($domain);
                 }
 
-                if (isset($cidr)) // add CIDR specification if present
-                {
+                if (isset($cidr)) { // add CIDR specification if present
                     foreach ($new_hosts as &$host) {
                         $host .= '/' . $cidr;
                     }
@@ -90,8 +79,7 @@ function get_mx_hosts($domain)
                 $hosts = array_unique(array_merge($hosts, $new_hosts), SORT_REGULAR);
             }
         }
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         if ($e->getMessage() !== 'dns_get_record(): A temporary server error occurred.') {
             throw $e;
         }
@@ -133,5 +121,3 @@ function get_outgoing_hosts_best_guess($domain)
     // fall back to the A record to get the host name for this domain
     return get_a_hosts($domain);
 }
-
-?>

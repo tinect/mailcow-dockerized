@@ -37,12 +37,12 @@ logger();
             <?php
             $alertbox_log_parser = alertbox_log_parser($_SESSION);
             if (is_array($alertbox_log_parser)) {
-            foreach($alertbox_log_parser as $log) {
-            ?>
-            mailcow_alert_box(<?=$log['msg'];?>, <?=$log['type'];?>);
+                foreach ($alertbox_log_parser as $log) {
+                    ?>
+            mailcow_alert_box(<?=$log['msg']; ?>, <?=$log['type']; ?>);
             <?php
-            }
-            unset($_SESSION['return']);
+                }
+                unset($_SESSION['return']);
             }
             ?>
             // Confirm TFA modal

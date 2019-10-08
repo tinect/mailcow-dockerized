@@ -3,9 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/prerequisites.inc.php';
 
 if (isset($_SESSION['mailcow_cc_role'])) {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
-    $_SESSION['return_to'] = $_SERVER['REQUEST_URI'];
-
-    ?>
+    $_SESSION['return_to'] = $_SERVER['REQUEST_URI']; ?>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -22,8 +20,7 @@ if (isset($_SESSION['mailcow_cc_role'])) {
                         <div class="alert alert-info"><?= $lang['quarantine']['disabled_by_config']; ?></div>
                     </div>
                     <?php
-                    endif;
-                    ?>
+                    endif; ?>
                     </p>
                     <div class="table-responsive">
                         <table id="quarantinetable" class="table table-striped"></table>
@@ -59,18 +56,16 @@ if (isset($_SESSION['mailcow_cc_role'])) {
         </div> <!-- /row -->
     </div> <!-- /container -->
     <?php
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/modals/quarantine.php';
-    ?>
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/modals/quarantine.php'; ?>
     <script type='text/javascript'>
         <?php
         $lang_mailbox = json_encode($lang['quarantine']);
-        echo "var acl = '" . json_encode($_SESSION['acl']) . "';\n";
-        echo 'var lang = ' . $lang_mailbox . ";\n";
-        echo "var csrf_token = '" . $_SESSION['CSRF']['TOKEN'] . "';\n";
-        $role = ($_SESSION['mailcow_cc_role'] == 'admin') ? 'admin' : 'domainadmin';
-        echo "var role = '" . $role . "';\n";
-        echo "var pagination_size = '" . $PAGINATION_SIZE . "';\n";
-        ?>
+    echo "var acl = '" . json_encode($_SESSION['acl']) . "';\n";
+    echo 'var lang = ' . $lang_mailbox . ";\n";
+    echo "var csrf_token = '" . $_SESSION['CSRF']['TOKEN'] . "';\n";
+    $role = ($_SESSION['mailcow_cc_role'] == 'admin') ? 'admin' : 'domainadmin';
+    echo "var role = '" . $role . "';\n";
+    echo "var pagination_size = '" . $PAGINATION_SIZE . "';\n"; ?>
     </script>
     <?php
     $js_minifier->add('/web/js/site/quarantine.js');

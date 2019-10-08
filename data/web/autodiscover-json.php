@@ -16,4 +16,3 @@ if (strtolower($_GET['Protocol']) == 'activesync') {
     http_response_code(400);
     echo '{"ErrorCode":"InvalidProtocol","ErrorMessage":"The given protocol value \u0027' . $_GET['Protocol'] . '\u0027 is invalid. Supported values are \u0027ActiveSync,AutodiscoverV1\u0027"}';
 }
-?>
