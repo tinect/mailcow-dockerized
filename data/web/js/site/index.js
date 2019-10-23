@@ -1,4 +1,4 @@
-$(document).ready(function() {
-	$('nav').hide();
-  localStorage.clear();
-});
+$(document).ready(function () {
+  $('nav').hide()
+  localStorage.clear()
+})

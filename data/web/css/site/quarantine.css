@@ -1,4 +1,4 @@
-table.footable>tbody>tr.footable-empty>td {
+table.footable > tbody > tr.footable-empty > td {
   font-size: 15px !important;
   font-style: italic;
 }
