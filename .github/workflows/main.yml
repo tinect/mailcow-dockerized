@@ -5,7 +5,7 @@ jobs:
     name: EditorConfig-Action
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@actionTest
+      - uses: actions/checkout@master
       - name: EC PR Audit
         uses: zbeekman/EditorConfig-Action@v1.1.1
         env:
