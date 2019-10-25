@@ -1,0 +1,12 @@
+on: push
+name: EditorConfig Audit
+jobs:
+  editorConfig-Action:
+    name: EditorConfig-Action
+    runs-on: ubuntu-latest
+    steps:
+      - name: EditorConfig-Action
+        uses: "zbeekman/EditorConfig-Action@v1.1.0"
+        env:
+          ALWAYS_LINT_ALL_FILES: "true"
+          EC_FIX_ERRORS: "false"
