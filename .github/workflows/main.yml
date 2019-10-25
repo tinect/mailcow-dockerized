@@ -5,9 +5,8 @@ jobs:
     name: EditorConfig-Action
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
       - name: EditorConfig-Action
-        uses: "zbeekman/EditorConfig-Action@v1.1.0"
+        uses: "zbeekman/EditorConfig-Action@v1.1.1"
         env:
           ALWAYS_LINT_ALL_FILES: "true"
           EC_FIX_ERRORS: "false"
